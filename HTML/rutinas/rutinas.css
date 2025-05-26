@@ -1,0 +1,203 @@
+/* Fondo y fuente general */
+.pagina {
+  background-color: #0f1d35;
+  color: white;
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+/* Barra lateral izquierda */
+.barra-lateral {
+  width: 4rem;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  gap: 1rem;
+}
+
+.icono {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: white;
+  border-radius: 9999px;
+  border: none;
+}
+
+/* Contenido principal */
+.contenido-principal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+/* Barra superior con navegación y perfil */
+.barra-superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.navegacion-principal {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.barra-superior {
+  display: flex;
+  justify-content: space-between; /* Espacia entre botones y perfil */
+  align-items: center;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.navegacion-principal {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 auto; /* CENTRA los botones horizontalmente */
+}
+
+
+.boton-seccion {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.boton-seccion.blanco {
+  background-color: white;
+  color: black;
+}
+
+.boton-seccion.azul {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Imagen de perfil */
+.perfil {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+}
+
+/* Contenedor central con 2 columnas */
+.zona-contenido {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .zona-contenido {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Columna izquierda: ejercicios */
+.zona-ejercicio {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Título del ejercicio */
+.titulo-ejercicio {
+  background-color: black;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Tarjeta principal de ejercicio */
+.tarjeta-ejercicio {
+  background-color: black;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navegacion-ejercicio {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flecha {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.imagen-ejercicio {
+  width: 75%;
+}
+
+/* Info debajo de la imagen */
+.info-ejercicio {
+  margin-top: 1rem;
+  text-align: left;
+  width: 100%;
+}
+
+/* Tarjeta de días de la semana */
+.tarjeta-dias {
+  background-color: black;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+/* Botones de días */
+.dias-semana {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.boton-dia {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background-color: #4b5563;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.boton-dia:hover {
+  background-color: #6b7280;
+}
+
+.boton-dia.seleccionado {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Columna derecha (vacía por ahora) */
+.columna-derecha {
+  background-color: black;
+  border-radius: 0.75rem;
+}
+
+.hr {
+  height: 2px;
+  background-color: black;
+  margin: 20px 0;
+}

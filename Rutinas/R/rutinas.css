@@ -77,13 +77,13 @@
 }
 
 .boton-seccion.blanco {
-  background-color: white;
+  background-color: #2563eb;
   color: black;
 }
 
 .boton-seccion.azul {
-  background-color: #2563eb;
-  color: white;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
 }
 
 /* Imagen de perfil */

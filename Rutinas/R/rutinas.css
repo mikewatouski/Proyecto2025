@@ -9,23 +9,35 @@
 }
 
 /* Barra lateral izquierda */
+
+
 .barra-lateral {
-  width: 4rem;
+  width: 3rem;
   background-color: black;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  padding-top: 1rem;
+  padding: 1rem 0;
+  height: 100vh;
+ 
+}
+
+.iconos-superiores,
+.icono-inferior {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
 .icono {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
   background-color: white;
   border-radius: 9999px;
   border: none;
 }
+
 
 /* Contenido principal */
 .contenido-principal {

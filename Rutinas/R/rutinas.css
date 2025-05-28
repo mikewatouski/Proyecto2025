@@ -111,6 +111,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  height: 500px;
 }
 
 /* Título del ejercicio */
@@ -119,6 +120,7 @@
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
+  height: 50px;
 }
 
 /* Tarjeta principal de ejercicio */
@@ -129,6 +131,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 300px;
 }
 
 .navegacion-ejercicio {

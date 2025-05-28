@@ -13,7 +13,7 @@
 
 .barra-lateral {
   width: 3rem;
-  background-color: black;
+  background-color: rgb(5, 5, 5);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

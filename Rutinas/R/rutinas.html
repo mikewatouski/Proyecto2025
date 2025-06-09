@@ -21,10 +21,7 @@
     <div class="inocono-inferior">
       <button class="icono"></button>
     </div>
- 
-   
   </aside>
-  
 
   <!-- Contenido principal -->
   <main class="contenido-principal">
@@ -36,13 +33,24 @@
       </div>
       <img src="perfil.png" alt="Perfil" class="perfil" />
     </div>
-    <hr  class="hr">
+    <hr class="hr">
 
     <!-- Zona de contenido editable -->
     <div class="zona-edicion" id="zona-edicion" style="display: none;">
-      <h2 class="text-white mb-4">Editar rutina</h2>
-      <textarea id="rutina-editable" class="edit" placeholder="Editar rutina aquí..."></textarea>
-      <button onclick="guardarRutina()" class="btn">Guardar</button>
+      <div class="contenedor-edicion" style="display: flex; gap: 2rem;">
+        <!-- Columna izquierda: textarea -->
+        <div class="editor" style="flex: 1; display: flex; flex-direction: column;">
+          <h2 class="text-white mb-4">Editar rutina</h2>
+          <textarea id="rutina-editable" class="edit" placeholder="Editar rutina aquí..." style="flex-grow: 1;"></textarea>
+          <button onclick="guardarRutina()" class="btn">Guardar</button>
+        </div>
+
+        <!-- Columna derecha: vista previa -->
+        <div class="vista-previa" style="flex: 1;">
+          <h2 class="text-white mb-4">Vista previa</h2>
+          <div id="rutina-guardada" class="preview-box">Aquí se verá la rutina guardada...</div>
+        </div>
+      </div>
     </div>
 
     <!-- Zona de contenido original -->

@@ -84,4 +84,6 @@ function guardarRutina() {
   console.log('Rutina guardada:', rutinaTexto);
  
   }
+
+ 
   

@@ -289,11 +289,11 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 850px;
+  width: 200px;
  
 
 }
 
 .btn:hover {
-  background-color: #b1ffee;
+  background-color: #929292;
 }

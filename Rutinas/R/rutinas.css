@@ -1,3 +1,5 @@
+
+
 /* Fondo y fuente general */
 .pagina {
   background-color: #0f1d35;
@@ -300,4 +302,31 @@
 
 .h1{
   padding-left: 40%;
+}
+
+.zona-edicion {
+  flex: 1;
+  height: calc(100vh - 150px); /* Ajustá según el alto de la navbar */
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.contenedor-edicion {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  align-items: stretch;
+}
+
+.editor, .vista-previa {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
 }

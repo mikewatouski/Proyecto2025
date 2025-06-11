@@ -1,8 +1,9 @@
-let datosPorDia = {}; // Se llena desde la base de datos
-
+let datosPorDia = {}; // Ejercicios por día
+let rutinasGuardadas = {}; // Rutinas de edición por día
 let diaElegido = "Lunes";
 let indice = 0;
 
+// Mostrar ejercicio actual
 function mostrarEjercicio() {
   const ejercicios = datosPorDia[diaElegido];
   if (ejercicios && ejercicios.length > 0) {
@@ -16,51 +17,25 @@ function mostrarEjercicio() {
   }
 }
 
-function siguienteEjercicio() {
-  const ejercicios = datosPorDia[diaElegido];
-  if (!ejercicios || ejercicios.length === 0) return;
-  indice = (indice + 1) % ejercicios.length;
-  mostrarEjercicio();
-}
-
-function anteriorEjercicio() {
-  const ejercicios = datosPorDia[diaElegido];
-  if (!ejercicios || ejercicios.length === 0) return;
-  indice = (indice - 1 + ejercicios.length) % ejercicios.length;
-  mostrarEjercicio();
-}
-
+// Cambiar día
 function cambiarDia(dia) {
-  if (!datosPorDia[dia]) return;
   diaElegido = dia;
   indice = 0;
   mostrarEjercicio();
+  actualizarVistaPrevia();
+  document.getElementById("rutina-editable").value = rutinasGuardadas[diaElegido] || "";
 }
 
+// Seleccionar botón de día
 function seleccionarDia(boton, dia) {
-  const botones = document.querySelectorAll('.boton-dia');
-  botones.forEach(b => b.classList.remove('seleccionado'));
+  document.querySelectorAll('.boton-dia').forEach(b => b.classList.remove('seleccionado'));
   boton.classList.add('seleccionado');
   cambiarDia(dia);
 }
 
-function cargarDesdeBase(datos) {
-  datosPorDia = datos;
-  mostrarEjercicio();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  // fetch('/api/ejercicios')
-  //   .then(respuesta => respuesta.json())
-  //   .then(data => cargarDesdeBase(data));
-
-  mostrarEjercicio();
-});
-
-
+// Selección entre "Rutina" y "Editar"
 function seleccionarSeccion(boton, nombre) {
-  const botones = document.querySelectorAll('.boton-seccion');
-  botones.forEach(btn => {
+  document.querySelectorAll('.boton-seccion').forEach(btn => {
     btn.classList.remove('blanco');
     btn.classList.add('azul');
   });
@@ -72,18 +47,31 @@ function seleccionarSeccion(boton, nombre) {
 
   if (nombre === 'Editar') {
     zonaContenido.style.display = 'none';
-    zonaEdicion.style.display = 'block';
+    zonaEdicion.style.display = 'flex';
+    actualizarVistaPrevia();
+    document.getElementById("rutina-editable").value = rutinasGuardadas[diaElegido] || "";
   } else {
     zonaContenido.style.display = 'grid';
     zonaEdicion.style.display = 'none';
   }
 }
 
+// Guardar rutina del día
 function guardarRutina() {
-  const rutinaTexto = document.getElementById('rutina-editable').value;
-  console.log('Rutina guardada:', rutinaTexto);
- 
-  }
+  const texto = document.getElementById("rutina-editable").value;
+  rutinasGuardadas[diaElegido] = texto;
+  actualizarVistaPrevia();
+}
 
- 
-  
+// Mostrar rutina en la vista previa
+function actualizarVistaPrevia() {
+  const rutina = rutinasGuardadas[diaElegido] || "Aquí se verá la rutina guardada...";
+  document.getElementById("rutina-guardada").textContent = rutina;
+  document.getElementById("titulo-previa").textContent = `Vista previa - ${diaElegido}`;
+}
+
+// Inicializar al cargar
+document.addEventListener("DOMContentLoaded", () => {
+  mostrarEjercicio();
+  actualizarVistaPrevia();
+});

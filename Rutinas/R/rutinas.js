@@ -32,7 +32,7 @@ function seleccionarDia(boton, dia) {
   boton.classList.add('seleccionado');
   diaElegido = dia;
 
-  document.getElementById("titulo-previa").textContent = `Vista previa - ${dia}`;
+  document.getElementById("titulo-previa").textContent = `Edicion rutina dia ${dia}`;
   document.getElementById("rutina-editable").value = rutinasGuardadas[dia] || "";
 
   actualizarVistaPrevia();

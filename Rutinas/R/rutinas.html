@@ -40,19 +40,15 @@
       <div class="contenedor-edicion" style="display: flex; gap: 2rem;">
         <!-- Columna izquierda: textarea -->
         <div class="editor" style="flex: 1; display: flex; flex-direction: column;">
-          <h2 class="text-white mb-4">Editar rutina</h2>
-          <textarea id="rutina-editable" class="edit" placeholder="Editar rutina aquí..." style="flex-grow: 1;"></textarea>
-          <button onclick="guardarRutina()" class="btn mt-4">Guardar</button>
+          <h2 id="titulo-previa" class="text-white mb-4">Vista previa - Lunes</h2>
+          <textarea id="rutina-editable" class="edit" placeholder="Escribí la rutina acá..." style="flex-grow: 1;"></textarea>
+         <button onclick="subirRutina()" class="btn mt-4">Subir</button>
         </div>
 
         <!-- Columna derecha: vista previa -->
-        <div class="vista-previa" style="flex: 1; display: flex; flex-direction: column;">
-          <h2 id="titulo-previa" class="text-white mb-4">Vista previa</h2>
-          <div id="rutina-guardada" class="preview-box" style="flex-grow: 1;">Aquí se verá la rutina guardada...</div>
-          <button onclick="subirRutina()" class="btn mt-4">Subir</button>
         </div>
       </div>
-    </div>
+  
 
     <!-- Zona de contenido original -->
     <div class="zona-contenido" id="zona-contenido">
@@ -84,17 +80,13 @@
         </div>
       </div>
 
-<div class="columna-derecha">
-  <h2 class="text-white mb-4">Rutina subida</h2>
-  
-  <div id="rutina-final-container" style="display: none;">
-    <div id="rutina-final" class="preview-box">Aquí se verá lo que subiste...</div>
-  </div>
-</div>
-
-
-
-
+      <div class="columna-derecha">
+        <h2 class="text-white mb-4">Rutina subida</h2>
+        <div id="rutina-final-container" style="display: none;">
+          <div id="rutina-final" class="preview-box">Aquí se verá lo que subiste...</div>
+        </div>
+      </div>
+    </div>
   </main>
 </body>
 </html>

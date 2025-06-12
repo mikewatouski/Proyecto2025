@@ -1,45 +1,8 @@
-let datosPorDia = {};
 let rutinasGuardadas = {};
 let rutinasSubidas = {};
 let diaElegido = "Lunes";
-let indice = 0;
 
-function seleccionarDia(boton, dia) {
-  document.querySelectorAll('.boton-dia').forEach(b => b.classList.remove('seleccionado'));
-  boton.classList.add('seleccionado');
-  diaElegido = dia;
-
-  const editable = document.getElementById("rutina-editable");
-  if (editable) editable.value = rutinasGuardadas[dia] || "";
-
-  const titulo = document.getElementById("titulo-previa");
-  if (titulo) titulo.textContent = `Vista previa - ${dia}`;
-
-  mostrarEjercicio();
-  actualizarVistaPrevia();
-  actualizarRutinaFinal();
-}
-
-function mostrarEjercicio() {
-  const ejercicios = datosPorDia[diaElegido];
-
-  const nombre = document.getElementById("nombre-ejercicio");
-  const peso = document.getElementById("peso");
-  const reps = document.getElementById("repeticiones");
-
-  if (!nombre || !peso || !reps) return;
-
-  if (ejercicios && ejercicios.length > 0) {
-    nombre.textContent = ejercicios[indice].nombre;
-    peso.textContent = "Peso: " + ejercicios[indice].peso;
-    reps.textContent = "Reps: " + ejercicios[indice].reps;
-  } else {
-    nombre.textContent = "Sin ejercicios";
-    peso.textContent = "Peso: -";
-    reps.textContent = "Reps: -";
-  }
-}
-
+// Cambiar de sección
 function seleccionarSeccion(boton, nombre) {
   document.querySelectorAll('.boton-seccion').forEach(btn => {
     btn.classList.remove('blanco');
@@ -63,48 +26,48 @@ function seleccionarSeccion(boton, nombre) {
   }
 }
 
-function guardarRutina() {
-  const texto = document.getElementById("rutina-editable").value;
-  rutinasGuardadas[diaElegido] = texto;
+// Seleccionar día
+function seleccionarDia(boton, dia) {
+  document.querySelectorAll('.boton-dia').forEach(b => b.classList.remove('seleccionado'));
+  boton.classList.add('seleccionado');
+  diaElegido = dia;
+
+  document.getElementById("titulo-previa").textContent = `Vista previa - ${dia}`;
+  document.getElementById("rutina-editable").value = rutinasGuardadas[dia] || "";
+
   actualizarVistaPrevia();
-}
-
-function actualizarVistaPrevia() {
-  const rutina = rutinasGuardadas[diaElegido] || "Aquí se verá la rutina guardada...";
-  const guardada = document.getElementById("rutina-guardada");
-  const titulo = document.getElementById("titulo-previa");
-
-  if (guardada) guardada.textContent = rutina;
-  if (titulo) titulo.textContent = `Vista previa - ${diaElegido}`;
-}
-
-function subirRutina() {
-  const texto = rutinasGuardadas[diaElegido] || "";
-  if (texto.trim() !== "") {
-    rutinasSubidas[diaElegido] = texto;
-  } else {
-    delete rutinasSubidas[diaElegido];
-  }
   actualizarRutinaFinal();
 }
 
+// Guardar rutina temporal
+function actualizarVistaPrevia() {
+  const texto = document.getElementById("rutina-editable").value;
+  rutinasGuardadas[diaElegido] = texto;
+}
+
+// Subir rutina
+function subirRutina() {
+  const texto = document.getElementById("rutina-editable").value;
+  rutinasSubidas[diaElegido] = texto;
+
+  actualizarRutinaFinal();
+}
+
+// Mostrar rutina subida
 function actualizarRutinaFinal() {
   const container = document.getElementById("rutina-final-container");
   const rutina = rutinasSubidas[diaElegido];
-  const finalBox = document.getElementById("rutina-final");
-
-  if (!container || !finalBox) return;
 
   if (rutina && rutina.trim() !== "") {
-    finalBox.textContent = rutina;
+    document.getElementById("rutina-final").textContent = rutina;
     container.style.display = "block";
   } else {
     container.style.display = "none";
   }
 }
 
+// Inicializar
 document.addEventListener("DOMContentLoaded", () => {
-  mostrarEjercicio();
   actualizarVistaPrevia();
   actualizarRutinaFinal();
 });

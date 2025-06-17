@@ -1,14 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Index</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio</title>
+  <link rel="stylesheet" href="rutinas.css">
+  <script src="rutinas.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    
+<body class="pagina">
+  <!-- Barra lateral -->
+  <aside class="barra-lateral">
+    <div class="iconos-superiores"> 
+      <button class="icono"></button>
+      <button class="icono"></button>
+      <button class="icono"></button>
+      <button class="icono"></button>
+      <button class="icono"></button>
+    </div>
+    <div class="inocono-inferior">
+      <button class="icono"></button>
+    </div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="contenido-principal">
+    <!-- Navbar superior -->
+    <div class="barra-superior">
+      <div class="navegacion-principal" id="barra-nav">
+        <button onclick="seleccionarSeccion(this, 'Rutina')" id="btn-Rutina" class="boton-seccion blanco">Rutina</button>
+        <button onclick="seleccionarSeccion(this, 'Editar')" id="btn-Editar" class="boton-seccion azul">Editar</button>
+      </div>
+      <img src="perfil.png" alt="Perfil" class="perfil" />
+    </div>
+    <hr class="hr">
+
+    <!-- Zona de contenido editable -->
+    <div class="zona-edicion" id="zona-edicion" style="display: none;">
+      <div class="contenedor-edicion" style="display: flex; gap: 2rem;">
+        <!-- Columna izquierda: textarea -->
+        <div class="editor" style="flex: 1; display: flex; flex-direction: column;">
+          <h2 id="titulo-previa" class="text-white mb-4">Edicion rutina dia</h2>
+          <textarea id="rutina-editable" class="edit" placeholder="Escribí la rutina acá..." style="flex-grow: 1;"></textarea>
+         <button onclick="subirRutina()" class="btn mt-4">Subir</button>
+        </div>
+
+        <!-- Columna derecha: vista previa -->
+        </div>
+      </div>
+  
+
+    <!-- Zona de contenido original -->
+    <div class="zona-contenido" id="zona-contenido">
+      <div class="zona-ejercicio">
+        <div class="titulo-ejercicio">Ejercicio indicado</div>
+
+        <div class="tarjeta-ejercicio">
+          <div class="navegacion-ejercicio">
+            <button onclick="anteriorEjercicio()" class="flecha">&#8592;</button>
+            <img src="imagen-ejemplo.png" alt="Ejercicio" class="imagen-ejercicio">
+            <button onclick="siguienteEjercicio()" class="flecha">&#8594;</button>
+          </div>
+          <div class="info-ejercicio">
+            <p id="peso">Peso: peso Indicado</p>
+            <p id="repeticiones">Reps: repeticiones indicadas</p>
+          </div>
+        </div>
+
+        <div class="tarjeta-dias">
+          <div class="dias-semana" id="dias">
+            <button id="btn-Lunes" onclick="seleccionarDia(this, 'Lunes')" class="boton-dia">Lunes</button>
+            <button onclick="seleccionarDia(this, 'Martes')" class="boton-dia">Martes</button>
+            <button onclick="seleccionarDia(this, 'Miércoles')" class="boton-dia">Miércoles</button>
+            <button onclick="seleccionarDia(this, 'Jueves')" class="boton-dia">Jueves</button>
+            <button onclick="seleccionarDia(this, 'Viernes')" class="boton-dia">Viernes</button>
+            <button onclick="seleccionarDia(this, 'Sábado')" class="boton-dia">Sábado</button>
+            <button onclick="seleccionarDia(this, 'Domingo')" class="boton-dia">Domingo</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="columna-derecha">
+        <h2 class="text-white mb-4">Rutina subida</h2>
+        <div id="rutina-final-container" style="display: none;">
+          <div id="rutina-final" class="preview-box">Aquí se verá lo que subiste...</div>
+        </div>
+      </div>
+    </div>
+  </main>
 </body>
-<script src="index.css"></script>
-<script src="index.js"></script>
 </html>

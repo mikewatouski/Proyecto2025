@@ -11,10 +11,24 @@
     <title>Cuadro</title>
 </head>
 <body>
-    <section class="grafico-semanal">
-        <h2 class="titulo-grafico">Progreso semanal</h2>
-        <canvas id="graficoProgreso" height="140"></canvas>
-      </section>
+    <div class="columna-derecha">
+        <h2 class="text-white mb-4">Progreso de peso</h2>
+        <div class="tarjeta-dias">
+          <div class="dias-semana" id="dias-peso">
+            <button class="boton-dia" onclick="mostrarGraficoPeso('Lunes')">Lunes</button>
+            <button class="boton-dia" onclick="mostrarGraficoPeso('Martes')">Martes</button>
+            <button class="boton-dia" onclick="mostrarGraficoPeso('Miércoles')">Miércoles</button>
+            <button class="boton-dia" onclick="mostrarGraficoPeso('Jueves')">Jueves</button>
+            <button class="boton-dia" onclick="mostrarGraficoPeso('Viernes')">Viernes</button>
+            <button class="boton-dia" onclick="mostrarGraficoPeso('Sábado')">Sábado</button>
+            <button class="boton-dia" onclick="mostrarGraficoPeso('Domingo')">Domingo</button>
+          </div>
+        </div>
+        <div id="grafico-peso-container" style="margin-top: 1rem;">
+          <canvas id="grafico-peso"></canvas>
+        </div>
+      </div>
+      
          
 </body>
 

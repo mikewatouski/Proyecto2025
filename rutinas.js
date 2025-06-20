@@ -71,3 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarVistaPrevia();
   actualizarRutinaFinal();
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const button = document.querySelector('#btn');
+  button.addEventListener('click', function () {
+    alert('Modificacion Guardada');
+  });
+});

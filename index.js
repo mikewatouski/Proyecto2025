@@ -15,6 +15,6 @@ document.getElementById('formulario-deporte').addEventListener('submit', functio
       intensidad: intensidad
     });
   
-    window.location.href = `index.html?${params.toString()}`;
+    window.location.href = `rutinas.html?${params.toString()}`;
   });
   

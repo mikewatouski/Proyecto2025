@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selector de Rutina</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="contenedor-formulario">
+    <h1>Boost</h1>
+    <p>Decinos qué deporte hacés y a qué intensidad entrenás para armarte la rutina perfecta.</p>
+
+    <form id="formulario-deporte">
+      <label for="deporte">Deporte:</label>
+      <select id="deporte" required>
+        <option value="">Seleccioná uno</option>
+        <option value="basquet">Basquet</option>
+        <option value="bolley">Bolley</option>
+        <option value="futbol">Fútbol</option>
+        <option value="rugby">Rugby</option>
+        <option value="tennis">Tennis</option>
+        <option value="hockey">Hockey</option>
+      </select>
+
+      <label for="intensidad">Intensidad:</label>
+      <select id="intensidad" required>
+        <option value="">Seleccioná una</option>
+        <option value="baja">Baja</option>
+        <option value="media">Media</option>
+        <option value="alta">Alta</option>
+      </select>
+
+      <button type="submit">Ver rutina sugerida</button>
+    </form>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>

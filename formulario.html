@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selector de Rutina</title>
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="formulario.css">
 </head>
 <body>
   <div class="contenedor-formulario">
@@ -23,6 +23,14 @@
         <option value="hockey">Hockey</option>
       </select>
 
+      <label for="dificultad">Dificultad:</label>
+      <select id="dificultad" required>
+        <option value="">Seleccioná una</option>
+        <option value="baja">Facíl</option>
+        <option value="media">Intermedio</option>
+        <option value="alta">Dificil</option>
+      </select>
+
       <label for="intensidad">Intensidad:</label>
       <select id="intensidad" required>
         <option value="">Seleccioná una</option>
@@ -37,6 +45,6 @@
     <div id="resultado"></div>
   </div>
 
-  <script src="index.js"></script>
+  <script src="formulario.js"></script>
 </body>
 </html>

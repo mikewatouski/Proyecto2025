@@ -1,20 +1,12 @@
-document.getElementById('formulario-deporte').addEventListener('submit', function (e) {
-    e.preventDefault();
+function irAFormulario() {
+    window.location.href = "formulario.html";
+  }
   
-    const deporte = document.getElementById('deporte').value;
-    const intensidad = document.getElementById('intensidad').value;
+  function irARegistro() {
+    alert("La sección de registro estará disponible pronto.");
+  }
   
-    if (!deporte || !intensidad) {
-      document.getElementById('resultado').textContent = 'Por favor, completá todos los campos.';
-      return;
-    }
-  
-    
-    const params = new URLSearchParams({
-      deporte: deporte,
-      intensidad: intensidad
-    });
-  
-    window.location.href = `rutinas.html?${params.toString()}`;
-  });
+  function irALogin() {
+    alert("La sección de inicio de sesión estará disponible pronto.");
+  }
   

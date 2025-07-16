@@ -33,19 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }]
   };
 
-  const dataPeso = {
-    labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4", "Semana 5"],
-    datasets: [{
-      label: "Peso corporal (kg)",
-      data: [80, 78.5, 77.2, 76.8, 76.0],
-      borderColor: "#f97316",
-      backgroundColor: "#f97316",
-      tension: 0.3,
-      fill: false,
-      pointRadius: 5,
-      pointHoverRadius: 7
-    }]
-  };
+
 
   const config = {
     type: "line",

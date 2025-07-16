@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel de Rutinas</title>
-  <link rel="stylesheet" href="cuadro.css">
+  <link rel="stylesheet" href="cuadro.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="cuadro.js" defer></script>
@@ -12,12 +12,12 @@
 <body class="pagina">
   <!-- Barra lateral -->
   <aside class="barra-lateral">
-    <div class="iconos-superiores"> 
-      <a class="icono" href="index.html"></a>
-      <a class="icono" href="formulario.html"></a>
-      <a class="icono" href="rutinas.html"></a>
-      <a class="icono" href="#"></a>
-      <a class="icono" href="#"></a>
+    <div class="iconos-superiores">
+      <a class="icono" href="index.html" title="Inicio"></a>
+      <a class="icono" href="formulario.html" title="Formulario"></a>
+      <a class="icono" href="rutinas.html" title="Rutinas"></a>
+      <a class="icono" href="#" title="Configuración"></a>
+      <a class="icono" href="#" title="Perfil"></a>
     </div>
   </aside>
 
@@ -25,30 +25,37 @@
   <main class="contenido-principal">
     <!-- Navbar superior -->
     <div class="barra-superior">
-      <div></div>
+      <div class="text-white text-xl font-bold">Boost Fitness</div>
       <img src="perfil.png" alt="Perfil" class="perfil" />
     </div>
 
-    <hr class="hr">
+    <hr class="hr" />
 
     <!-- Zona de tarjetas -->
     <div class="zona-contenido">
       <!-- Columna izquierda -->
       <div class="zona-ejercicio">
-        <div class="titulo-ejercicio"></div>
-        <div class="tarjeta-ejercicio"></div>
-        <div class="tarjeta-dias"></div>
+        <div class="titulo-ejercicio">
+          <h2 class="text-white font-semibold text-lg">Resumen Semanal</h2>
+        </div>
+        <div class="tarjeta-ejercicio text-white">
+          <p>Esta tarjeta muestra los detalles de tus rutinas más recientes: tipo de ejercicios, duración y nivel de intensidad. Ideal para ver tu desempeño general.</p>
+        </div>
+        <div class="tarjeta-dias text-white">
+          <p>Días entrenados esta semana: Lunes, Miércoles, Viernes y Domingo</p>
+        </div>
       </div>
 
       <!-- Columna derecha -->
-      <div class="columna-derecha">
-        <div class="encabezado-grafico">
-          <h2 id="tituloGrafico">Entrenamientos Completados</h2>
-          <select id="selectorGrafico">
-            <option value="completados">Entrenamientos completados</option>
-            <option value="duracion">Duración promedio (min)</option>
-          </select>
-        </div>
+      <div class="columna-derecha text-white">
+        <label for="selectorGrafico" class="font-bold block mb-1">Gráfico:</label>
+        <select id="selectorGrafico" class="text-black mb-3 p-1 rounded">
+          <option value="completados">Entrenamientos Completados</option>
+          <option value="duracion">Duración Promedio</option>
+          <option value="peso">Peso Corporal</option>
+        </select>
+
+        <h3 id="tituloGrafico" class="text-lg font-semibold mb-2">Entrenamientos Completados</h3>
         <canvas id="graficoEntrenamientos"></canvas>
       </div>
     </div>

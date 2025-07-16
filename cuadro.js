@@ -23,9 +23,23 @@ document.addEventListener("DOMContentLoaded", function () {
     labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4", "Semana 5"],
     datasets: [{
       label: "Duración promedio (min)",
-      data: [60, 62, 120, 58, 42],
+      data: [30, 35, 42, 39, 36],
       borderColor: "#10b981",
       backgroundColor: "#10b981",
+      tension: 0.3,
+      fill: false,
+      pointRadius: 5,
+      pointHoverRadius: 7
+    }]
+  };
+
+  const dataPeso = {
+    labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4", "Semana 5"],
+    datasets: [{
+      label: "Peso corporal (kg)",
+      data: [80, 78.5, 77.2, 76.8, 76.0],
+      borderColor: "#f97316",
+      backgroundColor: "#f97316",
       tension: 0.3,
       fill: false,
       pointRadius: 5,
@@ -63,12 +77,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const grafico = new Chart(ctx, config);
 
   selector.addEventListener("change", () => {
-    if (selector.value === "completados") {
-      grafico.data = dataCompletados;
-      titulo.textContent = "Entrenamientos Completados";
-    } else {
-      grafico.data = dataDuracion;
-      titulo.textContent = "Duración Promedio (min)";
+    const valor = selector.value;
+    switch (valor) {
+      case "completados":
+        grafico.data = dataCompletados;
+        titulo.textContent = "Entrenamientos Completados";
+        grafico.options.plugins.title.text = "Entrenamientos Completados";
+        break;
+      case "duracion":
+        grafico.data = dataDuracion;
+        titulo.textContent = "Duración Promedio (min)";
+        grafico.options.plugins.title.text = "Duración Promedio (min)";
+        break;
+      case "peso":
+        grafico.data = dataPeso;
+        titulo.textContent = "Progreso de Peso Corporal";
+        grafico.options.plugins.title.text = "Progreso de Peso Corporal";
+        break;
     }
     grafico.update();
   });

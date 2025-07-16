@@ -1,79 +1,75 @@
-// Simulación de entrada que luego será reemplazada por el backend
-window.rutinasSubidas = {
-  Lunes: "Sentadillas:60\nPress banca:40\nBicep:20",
-  Martes: "Peso muerto:80\nRemo:60\nPres militar:40",
-  Miércoles: "Sentadilla:50",
-  Jueves: "Press militar:35",
-  Viernes: "Curl biceps:25",
-  Sábado: "Tríceps:20",
-  Domingo: ""
-};
+document.addEventListener("DOMContentLoaded", function () {
+  const ctx = document.getElementById("graficoEntrenamientos");
+  const selector = document.getElementById("selectorGrafico");
+  const titulo = document.getElementById("tituloGrafico");
 
-// Función para convertir las rutinas en objetos de gráfico
-function procesarRutinasParaGraficos(rutinas) {
-  const resultado = {};
-  for (const dia in rutinas) {
-    const texto = rutinas[dia];
-    if (!texto) {
-      resultado[dia] = [];
-      continue;
-    }
-    const lineas = texto.split("\n");
-    resultado[dia] = lineas.map(linea => {
-      const [ejercicio, peso] = linea.split(":");
-      return {
-        ejercicio: ejercicio.trim(),
-        peso: parseFloat(peso)
-      };
-    });
-  }
-  return resultado;
-}
+  if (!ctx || !selector || !titulo) return;
 
-// Convertimos los datos del backend a datos del gráfico
-let datosPesoPorDia = procesarRutinasParaGraficos(window.rutinasSubidas || {});
+  const dataCompletados = {
+    labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4", "Semana 5"],
+    datasets: [{
+      label: "Entrenamientos completados",
+      data: [1, 2, 3, 3, 5],
+      borderColor: "#3b82f6",
+      backgroundColor: "#3b82f6",
+      tension: 0.3,
+      fill: false,
+      pointRadius: 5,
+      pointHoverRadius: 7
+    }]
+  };
 
-// Configuración del gráfico
-let graficoPeso;
+  const dataDuracion = {
+    labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4", "Semana 5"],
+    datasets: [{
+      label: "Duración promedio (min)",
+      data: [60, 62, 120, 58, 42],
+      borderColor: "#10b981",
+      backgroundColor: "#10b981",
+      tension: 0.3,
+      fill: false,
+      pointRadius: 5,
+      pointHoverRadius: 7
+    }]
+  };
 
-function mostrarGraficoPeso(dia) {
-  document.querySelectorAll('#dias-peso .boton-dia').forEach(b => b.classList.remove('seleccionado'));
-  const boton = Array.from(document.querySelectorAll('#dias-peso .boton-dia')).find(b => b.textContent === dia);
-  if (boton) boton.classList.add('seleccionado');
-
-  const datos = datosPesoPorDia[dia] || [];
-  const labels = datos.map(ej => ej.ejercicio);
-  const pesos = datos.map(ej => ej.peso);
-
-  const ctx = document.getElementById('grafico-peso').getContext('2d');
-
-  if (graficoPeso) {
-    graficoPeso.destroy();
-  }
-
-  graficoPeso = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Peso levantado (kg)',
-        data: pesos,
-        backgroundColor: 'rgba(37, 99, 235, 0.7)',
-        borderColor: '#2563eb',
-        borderWidth: 1
-      }]
-    },
+  const config = {
+    type: "line",
+    data: dataCompletados,
     options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Entrenamientos Completados',
+          color: 'white',
+          font: { size: 16 }
+        }
+      },
       scales: {
+        x: {
+          ticks: { color: "white" },
+          grid: { color: "#444" }
+        },
         y: {
-          beginAtZero: true
+          ticks: { color: "white" },
+          grid: { color: "#444" }
         }
       }
     }
-  });
-}
+  };
 
-// Mostrar gráfico inicial al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-  mostrarGraficoPeso('Lunes');
+  const grafico = new Chart(ctx, config);
+
+  selector.addEventListener("change", () => {
+    if (selector.value === "completados") {
+      grafico.data = dataCompletados;
+      titulo.textContent = "Entrenamientos Completados";
+    } else {
+      grafico.data = dataDuracion;
+      titulo.textContent = "Duración Promedio (min)";
+    }
+    grafico.update();
+  });
 });

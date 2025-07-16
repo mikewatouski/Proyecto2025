@@ -1,61 +1,125 @@
-.grafico-semanal {
-    padding: 2rem;
-    background-color: #0f1d35;
-    border-radius: 1rem;
-    margin: 2rem auto;
-    width: 90%;
-    max-width: 900px;
-  }
-  
-  .titulo-grafico {
-    color: white;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  #peso-container {
-    background-color: black;
-    border-radius: 0.75rem;
-    padding: 1rem;
-    color: white;
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  #pesoChart {
-    max-width: 600px;
-    width: 100%;
-    height: 300px;
-  }
-  
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  
-  #grafico-peso-container {
-    background-color: black;
-    border-radius: 0.75rem;
-    padding: 1rem;
-    box-sizing: border-box;
-  }
-  
-  .dias-semana button {
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    background-color: #4b5563;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin: 0.25rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .dias-semana button:hover {
-    background-color: #6b7280;
-  }
-  
-  .dias-semana .seleccionado {
-    background-color: #2563eb;
-    color: white;
-  }
-  
+body.pagina {
+  background-color: #0f1d35;
+  color: white;
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.barra-lateral {
+  width: 3rem;
+  background-color: #090909;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+  gap: 1rem;
+}
+
+.iconos-superiores {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.icono {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+}
+
+.contenido-principal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.barra-superior {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.perfil {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.hr {
+  border: none;
+  height: 1px;
+  background-color: white;
+  margin: 1rem 0;
+}
+
+.zona-contenido {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  height: 100%;
+}
+
+.zona-ejercicio {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.titulo-ejercicio,
+.tarjeta-ejercicio,
+.tarjeta-dias,
+.columna-derecha {
+  background-color: black;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  min-height: 100px;
+}
+
+.titulo-ejercicio { height: 50px; }
+.tarjeta-ejercicio { height: 300px; }
+.tarjeta-dias { height: 50px; }
+
+.columna-derecha {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#graficoEntrenamientos {
+  width: 100% !important;
+  height: 300px !important;
+}
+
+.encabezado-grafico {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.encabezado-grafico h2 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.encabezado-grafico select {
+  background-color: #1f2937;
+  color: white;
+  border: 1px solid #4b5563;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}

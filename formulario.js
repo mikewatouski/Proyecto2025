@@ -3,7 +3,7 @@ document.getElementById('formulario-deporte').addEventListener('submit', functio
   
     const deporte = document.getElementById('deporte').value;
     const dificultad = document.getElementById('dificultad').value;
-    const intensidad = document.getElementById('Objetivo').value;
+    const intensidad = document.getElementById('intensidad').value;
   
     if (!deporte || !dificultad || !intensidad) {
       document.getElementById('resultado').textContent = 'Por favor, completá todos los campos.';

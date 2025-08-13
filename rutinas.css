@@ -183,7 +183,12 @@
 
 /* Botones de días */
 
-
+#edit-dias {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  gap: 0.4rem;
+  flex-wrap: nowrap;
+}
 
 #edit-dias .boton-dia {
   padding: 0.35rem 0.6rem;  

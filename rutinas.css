@@ -182,11 +182,57 @@
 }
 
 /* Botones de días */
-.dias-semana {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+
+
+
+#edit-dias .boton-dia {
+  padding: 0.35rem 0.6rem;  
+  font-size: 0.8rem;
+  margin-right: 0.4rem;    
 }
+
+#edit-dias {
+  display: flex;
+  flex-wrap: nowrap;        /* todos en una fila */
+  justify-content: flex-start;
+}
+
+
+.boton-dia:hover {
+  background-color: #6b7280;
+}
+
+.boton-dia.seleccionado {
+  background-color: #2563eb;
+  color: white;
+}
+
+
+.dias-semana::-webkit-scrollbar {
+  height: 6px; /* barra de scroll finita */
+}
+
+.dias-semana::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+
+#dias {
+  display: flex;
+  flex-wrap: nowrap;        /* todos en una sola fila */
+  overflow-x: auto;         /* permite scroll si no entran */
+  gap: 0.5rem;               /* separación entre botones */
+}
+
+#dias::-webkit-scrollbar {
+  height: 6px;
+}
+
+#dias::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+
 
 .boton-dia {
   padding: 0.5rem 1rem;
@@ -336,4 +382,66 @@
   padding: 1rem;
   border-radius: 0.75rem;
   box-sizing: border-box;
+}
+
+/* ====== (todo tu CSS original queda igual) ====== */
+
+/* Inputs / edición (manteniendo estética) */
+.input-oscuro {
+  background-color: #0b0b0b;
+  color: #ffffff;
+  border: 1px solid #555;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  outline: none;
+}
+
+.input-oscuro:focus {
+  border-color: #2563eb;
+}
+
+/* Filas en la lista de edición */
+.fila-edit {
+  background-color: #0b0b0b;
+  border: 1px solid #333;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  display: grid;
+  grid-template-columns: 1.1fr 0.6fr 0.6fr 1fr auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+@media (max-width: 900px) {
+  .fila-edit {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.grupo-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label-edit {
+  font-size: 0.8rem;
+  color: #d1d5db;
+}
+
+/* Botón secundario oscuro */
+.btn-secundario {
+  background-color: #1f2937;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  height: 38px;
+}
+
+.btn-secundario:hover {
+  opacity: 0.8;
 }

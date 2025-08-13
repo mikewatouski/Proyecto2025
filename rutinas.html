@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ejercicio</title>
   <link rel="stylesheet" href="rutinas.css">
-  <script src="rutinas.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="rutinas.js" defer></script>
 </head>
 <body class="pagina">
   <!-- Barra lateral -->
@@ -17,9 +17,7 @@
       <a class="icono" href="cuadro.html"></a>
       <a class="icono" href="#"></a>
       <a class="icono" href="#"></a>
-      
     </div>
-    
   </aside>
 
   <!-- Contenido principal -->
@@ -34,22 +32,35 @@
     </div>
     <hr class="hr">
 
-    <!-- Zona de contenido editable -->
+    <!-- Zona de EDICIÓN -->
     <div class="zona-edicion" id="zona-edicion" style="display: none;">
       <div class="contenedor-edicion" style="display: flex; gap: 2rem;">
-        <!-- Columna izquierda: textarea -->
-        <div class="editor" style="flex: 1; display: flex; flex-direction: column;">
-          <h2 id="titulo-previa" class="text-white mb-4">Edicion rutina dia</h2>
-          <textarea id="rutina-editable" class="edit" placeholder="Escribí la rutina acá..." style="flex-grow: 1;"></textarea>
-         <button id="btn" onclick="subirRutina()" class="btn mt-4">Subir</button>
+        <!-- Columna izquierda: Editor -->
+        <div class="editor">
+          <h2 id="titulo-previa" class="text-white mb-4">Edición rutina día Lunes</h2>
+
+          <!-- Botones de días en edición -->
+          <div id="edit-dias" class="dias-semana mb-4"></div>
+
+          <!-- Lista editable -->
+          <div id="edit-list" class="flex flex-col gap-2 overflow-auto" style="min-height: 0;"></div>
+
+          <!-- Acciones -->
+          <div class="flex gap-2 mt-4 justify-center">
+            <button id="btn-add" class="btn">Agregar ejercicio</button>
+            <button id="btn-save" class="btn">Guardar cambios</button>
+          </div>
         </div>
 
-        <!-- Columna derecha: vista previa -->
+        <!-- Columna derecha: Vista previa de ese día -->
+        <div class="vista-previa">
+          <h2 class="text-white mb-4">Vista previa del día</h2>
+          <div id="preview-dia" class="preview-box"></div>
         </div>
       </div>
-  
+    </div>
 
-    <!-- Zona de contenido original -->
+    <!-- Zona de VISUALIZACIÓN -->
     <div class="zona-contenido" id="zona-contenido">
       <div class="zona-ejercicio">
         <div class="titulo-ejercicio">Ejercicio indicado</div>
@@ -57,18 +68,19 @@
         <div class="tarjeta-ejercicio">
           <div class="navegacion-ejercicio">
             <button onclick="anteriorEjercicio()" class="flecha">&#8592;</button>
-            <img src="imagen-ejemplo.png" alt="Ejercicio" class="imagen-ejercicio">
+            <img src="imagen-ejemplo.png" alt="Ejercicio" class="imagen-ejercicio" id="img-ejercicio">
             <button onclick="siguienteEjercicio()" class="flecha">&#8594;</button>
           </div>
           <div class="info-ejercicio">
-            <p id="peso">Peso: peso Indicado</p>
-            <p id="repeticiones">Reps: repeticiones indicadas</p>
+            <p id="nombre-ejercicio">Ejercicio: -</p>
+            <p id="peso">Peso: -</p>
+            <p id="repeticiones">Reps: -</p>
           </div>
         </div>
 
         <div class="tarjeta-dias">
           <div class="dias-semana" id="dias">
-            <button id="btn-Lunes" onclick="seleccionarDia(this, 'Lunes')" class="boton-dia">Lunes</button>
+            <button id="btn-Lunes" onclick="seleccionarDia(this, 'Lunes')" class="boton-dia seleccionado">Lunes</button>
             <button onclick="seleccionarDia(this, 'Martes')" class="boton-dia">Martes</button>
             <button onclick="seleccionarDia(this, 'Miércoles')" class="boton-dia">Miércoles</button>
             <button onclick="seleccionarDia(this, 'Jueves')" class="boton-dia">Jueves</button>
@@ -81,8 +93,8 @@
 
       <div class="columna-derecha">
         <h2 class="text-white mb-4">Rutina subida</h2>
-        <div id="rutina-final-container" style="display: none;">
-          <div id="rutina-final" class="preview-box">Aquí se verá lo que subiste...</div>
+        <div id="rutina-final-container">
+          <div id="rutina-final" class="preview-box">Aquí vas a ver la rutina completa del día seleccionado.</div>
         </div>
       </div>
     </div>

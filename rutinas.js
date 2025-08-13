@@ -315,3 +315,30 @@ window.seleccionarSeccion = seleccionarSeccion;
 window.seleccionarDia = seleccionarDia;
 window.anteriorEjercicio = anteriorEjercicio;
 window.siguienteEjercicio = siguienteEjercicio;
+
+
+function renderEjercicioActual() {
+  const lista = rutinas[diaElegido] || [];
+  const actual = lista[indiceEjercicio] || null;
+
+  const img = document.getElementById("img-ejercicio");
+  const nombreEl = document.getElementById("nombre-ejercicio");
+  const pesoEl = document.getElementById("peso");
+  const repsEl = document.getElementById("repeticiones");
+  const tituloEjercicioDia = document.getElementById("titulo-ejercicio-dia");
+
+  if (!actual) {
+    img.src = "imagen-ejemplo.png";
+    nombreEl.textContent = "Ejercicio: -";
+    pesoEl.textContent = "Peso: -";
+    repsEl.textContent = "Reps: -";
+    if (tituloEjercicioDia) tituloEjercicioDia.textContent = "Ejercicio: -";
+    return;
+  }
+
+  img.src = actual.img || "imagen-ejemplo.png";
+  nombreEl.textContent = `Ejercicio: ${actual.nombre || "-"}`;
+  pesoEl.textContent = `Peso: ${actual.peso ?? "-"} kg`;
+  repsEl.textContent = `Reps: ${actual.reps ?? "-"}`;
+  if (tituloEjercicioDia) tituloEjercicioDia.textContent = `Ejercicio: ${actual.nombre || "-"}`;
+}

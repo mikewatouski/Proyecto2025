@@ -1,41 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boost Fitness - Inicio</title>
-  <link rel="stylesheet" href="index.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rutinas Específicas Deportivas</title>
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <header>
-    <div class="logo">Boost <span>Fitness</span></div>
-    <div class="acciones">
-      <button onclick="iniciarSesion()">Iniciar Sesión</button>
-      <button onclick="registrarse()">Registrarse</button>
-    </div>
+  <header class="nav container">
+    <img src="assets/logo.png" alt="Logo" class="logo" />
+    <nav class="menu">
+      <a class="btn btn--ghost" href="login.html">Iniciar sesión</a>
+      <a class="btn btn--ghost" href="registro.html">Regístrate</a>
+    </nav>
   </header>
 
-  <main>
-    <section class="presentacion">
-      <h1>Potenciá tu entrenamiento</h1>
-      <p>
-        Boost Fitness es una plataforma que busca optimizar tu rendimiento deportivo a través de rutinas personalizadas. Nos enfocamos en acompañar deportistas de todas las disciplinas, ofreciendo recomendaciones basadas en tus objetivos e intensidad de entrenamiento.
-      </p>
-      <button onclick="irAFormulario()">Buscar mi rutina</button>
-    </section>
+  <main class="hero">
+    <div class="container grid">
+      <div class="col-left">
+        <h1 class="h1 gradient-text reveal">RUTINAS ESPECÍFICAS DEPORTIVAS</h1>
+        <p class="subtitle reveal">Rutinas personalizadas para mejorar tu rendimiento deportivo.</p>
+        <a class="cta reveal" href="formulario.html" >Empezar ahora</a>
+      </div>
 
-    <section class="descripcion">
-      <h2>¿Qué hacemos?</h2>
-      <p>
-        Diseñamos un sistema flexible que permite al usuario encontrar su plan de entrenamiento ideal según sus necesidades. Ya seas principiante o atleta avanzado, Boost Fitness tiene una propuesta para vos.
-      </p>
-    </section>
+      <!-- Panel decorativo (sin personas) -->
+      <div class="col-right reveal">
+        <div class="panel"></div>
+      </div>
+    </div>
+
+    <!-- Ola degradé inferior -->
+    <div class="wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"  stop-color="#FA4300"/>
+            <stop offset="50%" stop-color="#FA6C06"/>
+            <stop offset="100%" stop-color="#D7AA18"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,120 C220,180 420,60 720,120 C1020,180 1240,60 1440,120 L1440,200 L0,200 Z" fill="url(#g)"></path>
+      </svg>
+    </div>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Boost Fitness. Todos los derechos reservados.</p>
-  </footer>
-
+  <!-- JS -->
   <script src="index.js"></script>
 </body>
 </html>

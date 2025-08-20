@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro – Rutinas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="registro.css" />
+</head>
+<body>
+  <header class="nav container">
+    <a href="index.html" class="brand"><img src="assets/logo.png" alt="Logo" class="logo" /></a>
+    <nav class="menu">
+      <a class="btn btn--ghost" href="login.html">Iniciar sesión</a>
+      <a class="btn btn--ghost" href="registro.html">Regístrate</a>
+    </nav>
+  </header>
+
+  <main class="auth">
+    <div class="auth__card">
+      <h1 class="h1 gradient-text">Crear cuenta</h1>
+      <form id="form-registro" class="form">
+        <label>Nombre
+          <input type="text" name="nombre" placeholder="Tu nombre" required>
+        </label>
+        <label>Email
+          <input type="email" name="email" placeholder="tu@email.com" required>
+        </label>
+        <label>Contraseña
+          <input type="password" name="password" placeholder="mínimo 6 caracteres" minlength="6" required>
+        </label>
+        <button class="btn btn--cta" type="submit">Registrarme</button>
+      </form>
+      <p class="hint">¿Ya tenés cuenta? <a href="login.html">Iniciá sesión</a></p>
+    </div>
+
+    <!-- Ola degradé fija abajo -->
+    <div class="wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"  stop-color="#FF004F"/>
+            <stop offset="50%" stop-color="#FF2A76"/>
+            <stop offset="100%" stop-color="#B832FF"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,120 C220,180 420,60 720,120 C1020,180 1240,60 1440,120 L1440,200 L0,200 Z" fill="url(#g)"></path>
+      </svg>
+    </div>
+  </main>
+
+  <script src="registro.js"></script>
+</body>
+</html>

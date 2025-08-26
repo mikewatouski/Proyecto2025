@@ -1,14 +1,11 @@
-// Validación simple + demo de envío
+// Enviar el registro y mandar al lobby
 document.getElementById('form-registro').addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-    if ((data.password || '').length < 6) {
-      alert('La contraseña debe tener al menos 6 caracteres.');
-      return;
-    }
-    // TODO: enviar a tu backend
-    alert(`Cuenta creada para:\n${data.nombre} <${data.email}>`);
-    // Redirigir a login
-    window.location.href = 'login.html';
-  });
-  
+  e.preventDefault();
+  // Aquí podrías validar / enviar al backend
+  window.location.href = 'index.html'; // cambia el destino si querés
+});
+
+// Botón directo al lobby
+document.getElementById('go-lobby-register').addEventListener('click', ()=>{
+  window.location.href = 'index.html';
+});

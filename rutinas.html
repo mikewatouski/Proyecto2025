@@ -1,106 +1,134 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ejercicio</title>
-  <link rel="stylesheet" href="rutinas.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="rutinas.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rutinas – Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="rutinas.css" />
 </head>
-<body class="pagina">
-  <!-- Barra lateral -->
-  <aside class="barra-lateral">
-    <div class="iconos-superiores"> 
-      <a class="icono" href="index.html"></a>
-      <a class="icono" href="formulario.html"></a>
-      <a class="icono" href="cuadro.html"></a>
-      <a class="icono" href="#"></a>
-      <a class="icono" href="#"></a>
-    </div>
+<body class="app">
+
+  <!-- Sidebar con “puntos” -->
+  <aside class="sidebar">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
   </aside>
 
   <!-- Contenido principal -->
-  <main class="contenido-principal">
-    <!-- Navbar superior -->
-    <div class="barra-superior">
-      <div class="navegacion-principal" id="barra-nav">
-        <button onclick="seleccionarSeccion(this, 'Rutina')" id="btn-Rutina" class="boton-seccion blanco">Rutina</button>
-        <button onclick="seleccionarSeccion(this, 'Editar')" id="btn-Editar" class="boton-seccion azul">Editar</button>
+  <main class="main">
+
+    <!-- Toggle Rutina / Editar -->
+    <div class="topbar fade-in">
+      <div class="toggle">
+        <button class="pill active" data-mode="view">Rutina</button>
+        <button class="pill" data-mode="edit">Editar</button>
       </div>
-      <img src="perfil.png" alt="Perfil" class="perfil" />
-    </div>
-    <hr class="hr">
-
-    <!-- Zona de EDICIÓN -->
-    <div class="zona-edicion" id="zona-edicion" style="display: none;">
-      <div class="contenedor-edicion" style="display: flex; gap: 2rem;">
-        <!-- Columna izquierda: Editor -->
-        <div class="editor">
-          <h2 id="titulo-previa" class="text-white mb-4">Edición rutina día Lunes</h2>
-
-          <!-- Botones de días en edición -->
-          <div id="edit-dias" class="dias-semana mb-4"></div>
-
-          <!-- Lista editable -->
-          <div id="edit-list" class="flex flex-col gap-2 overflow-auto" style="min-height: 0;"></div>
-
-          <!-- Acciones -->
-          <div class="flex gap-2 mt-4 justify-center">
-            <button id="btn-add" class="btn">Agregar ejercicio</button>
-            <button id="btn-save" class="btn">Guardar cambios</button>
-          </div>
-        </div>
-
-        <!-- Columna derecha: Vista previa de ese día -->
-        <div class="vista-previa">
-          <h2 class="text-white mb-4">Vista previa del día</h2>
-          <div id="preview-dia" class="preview-box"></div>
-        </div>
-      </div>
+      <div class="badge">Perfil</div>
     </div>
 
-    <!-- Zona de VISUALIZACIÓN -->
-    <div class="zona-contenido" id="zona-contenido">
-      <div class="zona-ejercicio">
-        <div class="titulo-ejercicio"><h2 id="titulo-ejercicio-dia" class="text-white mb-3" style="text-align:center;">
-          Ejercicio: -
-        </h2>
-        </div>
+    <hr class="divider" />
 
-        <div class="tarjeta-ejercicio">
-          <div class="navegacion-ejercicio">
-            <button onclick="anteriorEjercicio()" class="flecha">&#8592;</button>
-            <img src="imagen-ejemplo.png" alt="Ejercicio" class="imagen-ejercicio" id="img-ejercicio">
-            <button onclick="siguienteEjercicio()" class="flecha">&#8594;</button>
-          </div>
-          <div class="info-ejercicio">
-            <p id="nombre-ejercicio">Ejercicio: -</p>
-            <p id="peso">Peso: -</p>
-            <p id="repeticiones">Reps: -</p>
-          </div>
-        </div>
+    <!-- === MODO RUTINA (vista) === -->
+    <section id="mode-view" class="mode visible">
 
-        <div class="tarjeta-dias">
-          <div class="dias-semana" id="dias">
-            <button id="btn-Lunes" onclick="seleccionarDia(this, 'Lunes')" class="boton-dia seleccionado">Lunes</button>
-            <button onclick="seleccionarDia(this, 'Martes')" class="boton-dia">Martes</button>
-            <button onclick="seleccionarDia(this, 'Miércoles')" class="boton-dia">Miércoles</button>
-            <button onclick="seleccionarDia(this, 'Jueves')" class="boton-dia">Jueves</button>
-            <button onclick="seleccionarDia(this, 'Viernes')" class="boton-dia">Viernes</button>
-            <button onclick="seleccionarDia(this, 'Sábado')" class="boton-dia">Sábado</button>
-            <button onclick="seleccionarDia(this, 'Domingo')" class="boton-dia">Domingo</button>
-          </div>
-        </div>
+      <div class="title-card card fade-up">
+        <h3 id="titulo-ejercicio">Ejercicio: Press banca</h3>
       </div>
 
-      <div class="columna-derecha">
-        <h2 class="text-white mb-4">Rutina subida</h2>
-        <div id="rutina-final-container">
-          <div id="rutina-final" class="preview-box">Aquí vas a ver la rutina completa del día seleccionado.</div>
+      <div class="grid-2">
+
+        <div class="card fade-up delay-1">
+          <div class="viewer">
+            <button class="nav-arrow" id="prev"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+            <div class="canvas">
+              <img id="img-ejercicio" alt="Ejercicio" />
+              <div class="canvas-glow"></div>
+            </div>
+
+            <button class="nav-arrow" id="next"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+
+          <div class="meta">
+            <div><strong>Ejercicio:</strong> <span id="meta-nombre">Press banca</span></div>
+            <div><strong>Peso:</strong> <span id="meta-peso">40</span> kg</div>
+            <div><strong>Reps:</strong> <span id="meta-reps">10</span></div>
+          </div>
+
+          <div class="days">
+            <button class="day active" data-dia="Lunes">Lunes</button>
+            <button class="day" data-dia="Martes">Martes</button>
+            <button class="day" data-dia="Miércoles">Miércoles</button>
+            <button class="day" data-dia="Jueves">Jueves</button>
+            <button class="day" data-dia="Viernes">Viernes</button>
+            <button class="day" data-dia="Sábado">Sábado</button>
+            <button class="day" data-dia="Domingo">Domingo</button>
+          </div>
         </div>
+
+        <div class="card fade-up delay-2">
+          <h4 class="card-title">Rutina subida</h4>
+          <div id="lista-view" class="list"></div>
+        </div>
+
       </div>
-    </div>
+    </section>
+
+    <!-- === MODO EDITAR (formulario) === -->
+    <section id="mode-edit" class="mode">
+
+      <div class="grid-2">
+
+        <div class="card fade-up">
+          <h4 class="card-title">Edición rutina día <span id="edit-dia">Lunes</span></h4>
+
+          <div class="days mb-12">
+            <button class="day active" data-dia-edit="Lunes">Lunes</button>
+            <button class="day" data-dia-edit="Martes">Martes</button>
+            <button class="day" data-dia-edit="Miércoles">Miércoles</button>
+            <button class="day" data-dia-edit="Jueves">Jueves</button>
+            <button class="day" data-dia-edit="Viernes">Viernes</button>
+            <button class="day" data-dia-edit="Sábado">Sábado</button>
+            <button class="day" data-dia-edit="Domingo">Domingo</button>
+          </div>
+
+          <div id="form-rows" class="stack-12">
+            <!-- filas dinámicas -->
+          </div>
+
+          <div class="actions">
+            <button id="btn-add" class="btn btn-ghost">Agregar ejercicio</button>
+            <button id="btn-save" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </div>
+
+        <div class="card fade-up delay-1">
+          <h4 class="card-title">Vista previa del día</h4>
+          <div id="lista-edit" class="preview"></div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
+
+  <!-- Ola inferior -->
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"  stop-color="#FA4300"/>
+          <stop offset="50%" stop-color="#FA6C06"/>
+          <stop offset="100%" stop-color="#D7AA18"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,120 C220,180 420,60 720,120 C1020,180 1240,60 1440,120 L1440,200 L0,200 Z" fill="url(#g)"></path>
+    </svg>
+  </div>
+
+  <script src="rutinas.js"></script>
 </body>
 </html>

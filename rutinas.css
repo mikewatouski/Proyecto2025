@@ -1,452 +1,192 @@
+/* ========== PALETA CÁLIDA (negro + rojos/naranjas) ========== */
+:root{
+  --bg:#000000;              /* fondo negro */
+  --panel:#0f0f10;           /* panel oscuro cálido */
+  --panel-2:#0a0a0b;         /* sidebar / topbar oscuro */
+  --text:#ffffff;            /* texto principal */
+  --muted:#dcdcdc;           /* texto suave */
+  --line:rgba(255,255,255,.08);
 
+  /* pills y controles */
+  --pill:#2a2320;            /* chip apagado (tinte cálido) */
+  --pill-text:#f0e7e3;
+  --pill-hover:brightness(1.06);
 
-/* Fondo y fuente general */
-.pagina {
-  background-color: #0f1d35;
-  color: white;
-  display: flex;
-  min-height: 100vh;
-  margin: 0;
-  font-family: sans-serif;
+  /* acentos cálidos (gradiente principal) */
+  --g1:#FA4300;              /* rojo-naranja */
+  --g2:#FA6C06;              /* naranja vivo */
+  --g3:#D7AA18;              /* dorado */
+
+  --shadow:0 16px 48px rgba(0,0,0,.45);
 }
 
-/* Barra lateral izquierda */
+/* ===== Base ===== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Arial}
 
+/* Layout general */
+.app{min-height:100vh;display:flex;gap:16px}
+.main{flex:1;padding:24px}
+.mode{display:none}
+.mode.visible{display:block}
 
-.barra-lateral {
-  width: 3rem;
-  background-color: rgb(5, 5, 5);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-  height: 100vh;
- 
+/* ===== Sidebar “puntos” ===== */
+.sidebar{
+  width:46px;padding:16px 10px;background:var(--panel-2);
+  display:flex;flex-direction:column;gap:14px;align-items:center;
+  border-right:1px solid var(--line)
+}
+.dot{
+  width:14px;height:14px;border-radius:50%;
+  background:linear-gradient(180deg,#3a2925,#151312);
+  border:1px solid #3b2b27;box-shadow:inset 0 1px 2px rgba(255,255,255,.05)
 }
 
-.iconos-superiores,
-.icono-inferior {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+/* ===== Topbar y toggle ===== */
+.topbar{display:flex;align-items:center;justify-content:space-between}
+.badge{color:#f1e6db;opacity:.85}
+
+.toggle{
+  display:flex;gap:10px;background:var(--panel-2);padding:6px;border-radius:999px;
+  border:1px solid var(--line)
+}
+.pill{
+  padding:10px 18px;border-radius:999px;background:transparent;border:0;
+  color:var(--pill-text);font-weight:800;letter-spacing:.2px;cursor:pointer;
+  transition:transform .04s ease,filter .2s ease
+}
+.pill:hover{filter:var(--pill-hover)}
+.pill:active{transform:translateY(1px)}
+.pill.active{
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+  color:#fff;box-shadow:0 10px 26px rgba(250,108,6,.35)
 }
 
-.icono {
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: white;
-  border-radius: 9999px;
-  border: none;
+/* ===== Divisor ===== */
+.divider{border:0;border-top:1px solid var(--line);margin:18px 0 24px}
+
+/* ===== Cards y grid ===== */
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:16px;box-shadow:var(--shadow);padding:16px
+}
+.card-title{font-weight:700;margin:0 0 10px;color:#fff}
+.title-card h3{margin:0}
+
+/* 2 columnas */
+.grid-2{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+
+/* ===== Viewer (izquierda) ===== */
+.viewer{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;
+  background:#0b0a0a;border:1px solid var(--line);border-radius:12px;padding:16px
+}
+.nav-arrow{
+  appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.07);
+  color:#ffe9de;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
+  cursor:pointer;transition:filter .2s ease,transform .05s ease
+}
+.nav-arrow:hover{filter:brightness(1.12)}
+.nav-arrow:active{transform:translateY(1px)}
+
+.canvas{
+  position:relative;overflow:hidden;border-radius:16px;height:220px;
+  background:
+    radial-gradient(120% 120% at 80% 30%, rgba(255,255,255,.05), transparent 55%),
+    radial-gradient(110% 160% at 15% 115%, rgba(215,170,24,.22), transparent 58%),
+    linear-gradient(145deg, rgba(250,67,0,.32), rgba(250,108,6,.28));
+  border:1px solid var(--line)
+}
+.canvas img{width:100%;height:100%;object-fit:cover;display:block;opacity:.95}
+.canvas-glow{
+  position:absolute;inset:-22%;
+  background:
+    radial-gradient(circle at 60% 30%, rgba(250,108,6,.35), transparent 50%),
+    radial-gradient(circle at 20% 90%, rgba(215,170,24,.28), transparent 55%);
+  mix-blend-mode:screen;animation:glow 6s ease-in-out infinite alternate
+}
+@keyframes glow{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-6px,4px,0)}}
+
+.meta{display:grid;gap:6px;margin:14px 0;color:#f6efe9}
+.meta strong{color:#fff}
+
+/* ===== Lista derecha ===== */
+.list{
+  height:360px;overflow:auto;border-radius:12px;border:1px solid var(--line);
+  background:#0a0908;padding:12px;color:#fff
+}
+.list::-webkit-scrollbar{width:10px}
+.list::-webkit-scrollbar-thumb{background:#3a2f2b;border-radius:8px}
+
+/* ===== Pills de días ===== */
+.days{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.day{
+  background:var(--pill);color:#f3e8e4;border:1px solid var(--line);
+  padding:10px 16px;border-radius:999px;font-weight:700;cursor:pointer;
+  transition:filter .2s ease,transform .05s ease
+}
+.day:hover{filter:var(--pill-hover)}
+.day:active{transform:translateY(1px)}
+.day.active{
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+  color:#fff;border-color:transparent;
+  box-shadow:0 8px 26px rgba(250,108,6,.25)
 }
 
+/* ===== Modo Editar ===== */
+.mb-12{margin-bottom:12px}
+.stack-12{display:grid;gap:12px}
 
-/* Contenido principal */
-.contenido-principal {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
+.form-row{
+  display:grid;grid-template-columns:1.4fr .7fr .7fr 1.2fr auto;gap:12px;align-items:center;
+  padding:12px;border:1px solid var(--line);border-radius:12px;background:#121010
+}
+.input{
+  width:100%;padding:10px 12px;border-radius:10px;color:#fff;
+  background:#1a1413;border:1px solid #3c2f2b;outline:none;
+  transition:border-color .2s ease, box-shadow .2s ease
+}
+.input:focus{border-color:#FA6C06;box-shadow:0 0 0 3px rgba(250,108,6,.25)}
+
+.btn{
+  appearance:none;border:0;border-radius:999px;padding:10px 16px;font-weight:800;cursor:pointer
+}
+.btn-ghost{
+  background:rgba(255,255,255,.07);color:#fff;border:1px solid var(--line)
+}
+.btn-primary{
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));color:#fff;
+  box-shadow:0 12px 28px rgba(250,108,6,.28)
+}
+.btn-danger{background:#3b2f2b;color:#ffe2de;border:1px solid #4a3a35}
+
+.actions{display:flex;gap:12px;margin-top:12px}
+
+/* Preview derecha */
+.preview{
+  height:420px;background:#0a0908;border:1px solid var(--line);
+  border-radius:12px;padding:14px;color:#fff
 }
 
-/* Barra superior con navegación y perfil */
-.barra-superior {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+/* ===== Ola inferior (opcional si la tenés) ===== */
+.wave{position:fixed;left:0;right:0;bottom:0;z-index:-1}
+.wave svg{width:100%;height:180px;display:block}
+
+/* ===== Animaciones de aparición ===== */
+.fade-in{animation:fadeIn .6s ease both}
+.fade-up{animation:fadeUp .7s ease both}
+.delay-1{animation-delay:.08s}
+.delay-2{animation-delay:.16s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ===== Responsive ===== */
+@media (max-width:1100px){
+  .grid-2{grid-template-columns:1fr}
+  .viewer,.list,.preview{height:320px}
+  .form-row{grid-template-columns:1fr 1fr 1fr 1.2fr auto}
 }
-
-.navegacion-principal {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.barra-superior {
-  display: flex;
-  justify-content: space-between; /* Espacia entre botones y perfil */
-  align-items: center;
-  padding: 0 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.navegacion-principal {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin: 0 auto; /* CENTRA los botones horizontalmente */
-}
-
-
-.boton-seccion {
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.boton-seccion.blanco {
-  background-color: #2563eb;
-  color: black;
-}
-
-.boton-seccion.azul {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-}
-
-/* Imagen de perfil */
-.perfil {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 9999px;
-}
-
-/* Contenedor central con 2 columnas */
-.zona-contenido {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .zona-contenido {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* Columna izquierda: ejercicios */
-.zona-ejercicio {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  height: 500px;
-}
-
-/* Título del ejercicio */
-.titulo-ejercicio {
-  background-color: black;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  height: 50px;
-}
-
-/* Tarjeta principal de ejercicio */
-.tarjeta-ejercicio {
-  background-color: black;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 300px;
-}
-
-.navegacion-ejercicio {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.flecha {
-  font-size: 2rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-.imagen-ejercicio {
-  width: 75%;
-}
-
-/* Info debajo de la imagen */
-.info-ejercicio {
-  margin-top: 1rem;
-  text-align: left;
-  width: 100%;
-}
-
-/* Tarjeta de días de la semana */
-.tarjeta-dias {
-  background-color: black;
-  border-radius: 0.75rem;
-  padding: 1rem;
-}
-
-/* Botones de días */
-
-#edit-dias {
-  display: flex;
-  justify-content: center; /* centra horizontalmente */
-  gap: 0.4rem;
-  flex-wrap: nowrap;
-}
-
-#edit-dias .boton-dia {
-  padding: 0.35rem 0.6rem;  
-  font-size: 0.8rem;
-  margin-right: 0.4rem;    
-}
-
-#edit-dias {
-  display: flex;
-  flex-wrap: nowrap;        /* todos en una fila */
-  justify-content: flex-start;
-}
-
-
-.boton-dia:hover {
-  background-color: #6b7280;
-}
-
-.boton-dia.seleccionado {
-  background-color: #2563eb;
-  color: white;
-}
-
-
-.dias-semana::-webkit-scrollbar {
-  height: 6px; /* barra de scroll finita */
-}
-
-.dias-semana::-webkit-scrollbar-thumb {
-  background: #4b5563;
-  border-radius: 3px;
-}
-
-#dias {
-  display: flex;
-  flex-wrap: nowrap;        /* todos en una sola fila */
-  overflow-x: auto;         /* permite scroll si no entran */
-  gap: 0.5rem;               /* separación entre botones */
-}
-
-#dias::-webkit-scrollbar {
-  height: 6px;
-}
-
-#dias::-webkit-scrollbar-thumb {
-  background: #4b5563;
-  border-radius: 3px;
-}
-
-
-.boton-dia {
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  background-color: #4b5563;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.boton-dia:hover {
-  background-color: #6b7280;
-}
-
-.boton-dia.seleccionado {
-  background-color: #2563eb;
-  color: white;
-}
-
-/* Columna derecha (vacía por ahora) */
-.columna-derecha {
-  background-color: black;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  min-height: 300px;
-  box-sizing: border-box;
-}
-
-
-.hr {
-  height: 2px;
-  background-color: black;
-  margin: 20px 0;
-}
-
-.contenedor-edicion {
-  display: flex;
-  gap: 1.5rem;
-  height: calc(100vh - 180px); /* Altura total útil ajustada */
-  padding: 1rem;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* Editor más angosto */
-.editor {
-  flex: 0.8;
-  display: flex;
-  flex-direction: column;
-  background-color: black;
-  padding: 1rem;
-  border-radius: 0.75rem;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* Vista previa ocupa más espacio */
-.vista-previa {
-  flex: 1.2;
-  display: flex;
-  flex-direction: column;
-  background-color: black;
-  padding: 1rem;
-  border-radius: 0.75rem;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* Área de texto que no se desborda */
-.edit {
-  flex: 1;
-  background-color: black;
-  color: white;
-  border: 1px solid #555;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  resize: none;
-  min-height: 0;
-  box-sizing: border-box;
-  width: 100%;
-  margin-bottom: 0.75rem;
-  overflow: auto;
-}
-
-/* Vista previa limpia */
-.preview-box {
-  flex: 1;
-  background-color: black;
-  color: white;
-  border: 1px solid #555;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  box-sizing: border-box;
-  overflow: auto;
-}
-
-/* Botón prolijo y dentro del cuadro */
-.btn {
-  align-self: center;
-  background-color: white;
-  color: black;
-  padding: 0.5rem 1.5rem;
-  border-radius: 99px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 200px;
- 
-
-}
-
-.btn:hover {
-  background-color: #929292;
-}
-
-.h1{
-  padding-left: 40%;
-}
-
-.zona-edicion {
-  flex: 1;
-  height: calc(100vh - 150px); /* Ajustá según el alto de la navbar */
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-}
-
-.contenedor-edicion {
-  display: flex;
-  gap: 2rem;
-  width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-  align-items: stretch;
-}
-
-.editor, .vista-previa {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: black;
-  padding: 1rem;
-  border-radius: 0.75rem;
-  box-sizing: border-box;
-}
-
-/* ====== (todo tu CSS original queda igual) ====== */
-
-/* Inputs / edición (manteniendo estética) */
-.input-oscuro {
-  background-color: #0b0b0b;
-  color: #ffffff;
-  border: 1px solid #555;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  width: 100%;
-  outline: none;
-}
-
-.input-oscuro:focus {
-  border-color: #2563eb;
-}
-
-/* Filas en la lista de edición */
-.fila-edit {
-  background-color: #0b0b0b;
-  border: 1px solid #333;
-  border-radius: 0.75rem;
-  padding: 0.75rem;
-  display: grid;
-  grid-template-columns: 1.1fr 0.6fr 0.6fr 1fr auto;
-  gap: 0.75rem;
-  align-items: end;
-}
-
-@media (max-width: 900px) {
-  .fila-edit {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.grupo-edit {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.label-edit {
-  font-size: 0.8rem;
-  color: #d1d5db;
-}
-
-/* Botón secundario oscuro */
-.btn-secundario {
-  background-color: #1f2937;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-  height: 38px;
-}
-
-.btn-secundario:hover {
-  opacity: 0.8;
+@media (max-width:720px){
+  .form-row{grid-template-columns:1fr;gap:10px}
 }

@@ -1,27 +1,28 @@
-/* Base (variables y colores) vienen de styles.css */
-.auth{
-    position:relative;
-    min-height:72vh;
-    display:grid;
-    place-items:center;
-    padding:60px 20px 200px; /* espacio para la ola */
-  }
-  .auth__card{
-    width:min(560px, 94vw);
-    background:#0e0e0f;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:16px;
-    padding:26px;
-    box-shadow:0 20px 60px rgba(0,0,0,.45);
-  }
-  .form{ display:grid; gap:14px; margin-top:10px }
-  .form label{ display:grid; gap:6px; font-weight:600 }
-  .form input{
-    background:#121214; color:#fff; border:1px solid rgba(255,255,255,.15);
-    border-radius:10px; padding:12px; outline:none;
-  }
-  .form input:focus{ border-color:#B832FF; box-shadow:0 0 0 3px rgba(184,50,255,.25) }
-  .hint{ color:#cfcfcf; margin-top:10px }
-  .wave{ position:fixed; left:0; right:0; bottom:0; z-index:-1 }
-  .wave svg{ width:100%; height:180px; display:block }
-  
+:root{--bg:#000;--text:#fff;--g1:#FF7A00;--g2:#FF4D00;--g3:#B72400}
+
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Inter,Arial,sans-serif; display:grid; place-items:center; min-height:100vh;
+}
+.auth__card{
+  background:#0e0e0f; padding:30px; border-radius:16px;
+  box-shadow:0 10px 40px rgba(0,0,0,.6); width:min(420px,90%); color:var(--text);
+}
+.h1{font-family:Montserrat;font-weight:800;font-size:28px;margin:0 0 20px;text-align:center;color:var(--text)}
+.gradient-text{background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+.form{display:grid;gap:14px}
+.form label{display:grid;gap:6px;color:var(--text)}
+.form input{padding:10px;border-radius:8px;border:1px solid #444;background:#121214;color:var(--text)}
+
+.btn{
+  padding:12px;border-radius:999px;border:0;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+  color:#fff;font-weight:700;cursor:pointer;width:100%;margin-top:6px
+}
+.btn--ghost{
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15);
+  color:var(--text); width:100%; margin-top:10px
+}
+
+.wave{position:fixed;bottom:0;left:0;right:0;z-index:-1}
+.wave svg{width:100%;height:180px;display:block}

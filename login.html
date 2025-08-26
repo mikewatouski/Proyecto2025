@@ -3,23 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Iniciar sesión – Rutinas</title>
+  <title>Iniciar sesión</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="login.css" />
 </head>
 <body>
-  <header class="nav container">
-    <a href="index.html" class="brand"><img src="assets/logo.png" alt="Logo" class="logo" /></a>
-    <nav class="menu">
-      <a class="btn btn--ghost" href="login.html">Iniciar sesión</a>
-      <a class="btn btn--ghost" href="registro.html">Regístrate</a>
-    </nav>
-  </header>
-
   <main class="auth">
     <div class="auth__card">
       <h1 class="h1 gradient-text">Iniciar sesión</h1>
+
       <form id="form-login" class="form">
         <label>Email
           <input type="email" name="email" placeholder="tu@email.com" required>
@@ -27,9 +19,11 @@
         <label>Contraseña
           <input type="password" name="password" placeholder="********" minlength="6" required>
         </label>
-        <button class="btn btn--cta" type="submit">Entrar</button>
+
+        <button class="btn" type="submit">Entrar</button>
       </form>
-      <p class="hint">¿No tenés cuenta? <a href="registro.html">Crear una</a></p>
+
+      <button id="go-lobby-login" class="btn btn--ghost" type="button">Ir al lobby</button>
     </div>
 
     <!-- Ola degradé fija abajo -->
@@ -37,12 +31,12 @@
       <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
         <defs>
           <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"  stop-color="#FF004F"/>
-            <stop offset="50%" stop-color="#FF2A76"/>
-            <stop offset="100%" stop-color="#B832FF"/>
+            <stop offset="0%" stop-color="#FF7A00"/>
+            <stop offset="60%" stop-color="#FF4D00"/>
+            <stop offset="100%" stop-color="#B72400"/>
           </linearGradient>
         </defs>
-        <path d="M0,120 C220,180 420,60 720,120 C1020,180 1240,60 1440,120 L1440,200 L0,200 Z" fill="url(#g)"></path>
+        <path d="M0,120 C220,180 420,60 720,120 C1020,180 1240,60 1440,120 L1440,200 L0,200 Z" fill="url(#g)"/>
       </svg>
     </div>
   </main>

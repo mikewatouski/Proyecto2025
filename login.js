@@ -1,10 +1,11 @@
-// Validación simple + demo de envío
+// Enviar el login y mandar al lobby
 document.getElementById('form-login').addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-    // TODO: enviar a tu backend
-    alert(`Sesión iniciada como:\n${data.email}`);
-    // Redirigir a index o dashboard
-    window.location.href = 'index.html';
-  });
-  
+  e.preventDefault();
+  // Aquí podrías validar / enviar al backend
+  window.location.href = 'index.html'; // cambia el destino si querés
+});
+
+// Botón directo al lobby
+document.getElementById('go-lobby-login').addEventListener('click', ()=>{
+  window.location.href = 'index.html';
+});

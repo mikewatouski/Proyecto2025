@@ -1,14 +1,101 @@
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #FF7A00, #FF4D00);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
+/* === Fondo base negro === */
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:#000;                 /* <-- negro */
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;                 /* que no aparezca scroll por blobs */
+}
+
+/* === Contenedor del fondo animado (debajo del contenido) === */
+.bg{
+  position:fixed;
+  inset:-10% -10% -10% -10%;       /* un poco más grande que el viewport */
+  z-index:-1;
+  filter: saturate(115%);
+}
+
+/* === Blobs === */
+.blob{
+  position:absolute;
+  border-radius:60% 40% 55% 45% / 55% 45% 60% 40%;
+  opacity:.55;
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  animation: drift var(--dur,40s) ease-in-out infinite,
+             morph 25s ease-in-out infinite alternate;
+  will-change: transform, border-radius;
+}
+
+/* Colores y tamaños distintos */
+.b1{
+  --dur: 46s;
+  top:12%; left:10%;
+  width:50vmin; height:50vmin;
+  background: radial-gradient(circle at 30% 30%, #FA4300 0%, #000 80%);
+}
+
+.b2{
+  --dur: 54s;
+  top:60%; left:15%;
+  width:35vmin; height:35vmin;
+  background: radial-gradient(circle at 40% 40%, #FF7A00 0%, #000 85%);
+}
+
+.b3{
+  --dur: 62s;
+  top:20%; right:8%;
+  width:60vmin; height:60vmin;
+  background: radial-gradient(circle at 35% 35%, #FA4300 0%, #FF7A00 70%, transparent 100%);
+}
+
+.b4{
+  --dur: 70s;
+  bottom:8%; right:25%;
+  width:28vmin; height:28vmin;
+  background: radial-gradient(circle at 50% 50%, #000 0%, #FA4300 60%, #FF7A00 100%);
+}
+
+.b5{
+  --dur: 80s;
+  top:40%; right:40%;
+  width:70vmin; height:70vmin;
+  background: radial-gradient(circle at 40% 40%, #FF4D00 0%, #000 75%);
+}
+
+
+/* Trayectoria suave (8-shaped-ish) */
+@keyframes drift{
+  0%   { transform: translate3d(0,0,0)           scale(1); }
+  25%  { transform: translate3d(10vmin,-6vmin,0) scale(1.07); }
+  50%  { transform: translate3d(-4vmin,8vmin,0)  scale(.96); }
+  75%  { transform: translate3d(-12vmin,-4vmin,0)scale(1.05); }
+  100% { transform: translate3d(0,0,0)           scale(1); }
+}
+
+/* Respeto accesibilidad: si el usuario pide menos animación */
+@media (prefers-reduced-motion: reduce){
+  .blob{ animation: none; }
+}
+
+/* === Tu tarjeta del formulario encima del fondo === */
+.contenedor-formulario{
+  position:relative;
+  background:rgba(0,0,0,.88);
+  padding:2rem 3rem;
+  border-radius:1rem;
+  box-shadow:0 18px 50px rgba(0,0,0,.6);
+  max-width:420px;
+  width:90%;
+  backdrop-filter: blur(2px);
+}
+
+/* (el resto de tus estilos puede quedar igual) */
+
   .contenedor-formulario {
     background-color: rgba(0, 0, 0, 0.904);
     padding: 2rem 3rem;

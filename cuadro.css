@@ -1,52 +1,47 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* ========== PALETA CÁLIDA (negro + rojos/naranjas) ========== */
+:root{
+  --bg:#000;                /* fondo negro */
+  --panel:#0f0f10;          /* panel oscuro cálido */
+  --panel-2:#0a0a0b;        /* sidebar/topbar */
+  --text:#fff;
+  --muted:#dcdcdc;
+  --line:rgba(255,255,255,.08);
+
+  --g1:#FA4300;             /* rojo-naranja */
+  --g2:#FA6C06;             /* naranja vivo */
+  --g3:#D7AA18;             /* dorado */
+  --shadow:0 16px 48px rgba(0,0,0,.45);
 }
 
-body.pagina {
-  background-color: #0f1d35;
-  color: white;
-  display: flex;
-  min-height: 100vh;
-  overflow: hidden;
+*{box-sizing:border-box;margin:0;padding:0}
+body.pagina{
+  min-height:100svh;
+  display:flex;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,Arial;
 }
 
-.barra-lateral {
-  width: 3rem;
-  background-color: #090909;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 0;
-  gap: 1rem;
+/* ===== Sidebar “puntos” ===== */
+.barra-lateral{
+  width:46px;padding:16px 10px;background:var(--panel-2);
+  display:flex;flex-direction:column;gap:14px;align-items:center;
+  border-right:1px solid var(--line)
+}
+.iconos-superiores{display:flex;flex-direction:column;gap:14px}
+.icono{
+  width:14px;height:14px;border-radius:50%;
+  background:linear-gradient(180deg,#3a2925,#151312);
+  border:1px solid #3b2b27;box-shadow:inset 0 1px 2px rgba(255,255,255,.05)
 }
 
-.iconos-superiores {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+/* ===== Contenido ===== */
+.contenido-principal{flex:1;display:flex;flex-direction:column;padding:18px}
 
-.icono {
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: white;
-  border-radius: 50%;
-  border: none;
-}
-
-.contenido-principal {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
+/* Topbar (perfil a la derecha) */
 .barra-superior {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end;  /* manda todo a la derecha */
   align-items: center;
   padding: 0 1rem;
 }
@@ -56,70 +51,92 @@ body.pagina {
   height: 2rem;
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid var(--line); /* mismo estilo que la landing */
 }
 
-.hr {
-  border: none;
-  height: 1px;
-  background-color: white;
-  margin: 1rem 0;
-}
 
-.zona-contenido {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1rem;
-  height: 100%;
-}
+/* Divisor */
+.hr{border:0;border-top:1px solid var(--line);margin:14px 0 20px}
 
-.zona-ejercicio {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+/* ===== Tarjetas y layout ===== */
+.zona-contenido{display:grid;grid-template-columns:1.3fr .9fr;gap:22px;min-height:0}
 
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:16px;box-shadow:var(--shadow);padding:16px;position:relative;
+  transition:transform .1s ease, box-shadow .2s ease, border-color .2s ease
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.card::after{
+  content:"";position:absolute;inset:-2px;border-radius:17px;opacity:.0;pointer-events:none;
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; padding:1px;
+  transition:opacity .25s ease
+}
+.card:hover::after{opacity:.35}
+
+/* aplica “card” a tus bloques existentes */
 .titulo-ejercicio,
 .tarjeta-ejercicio,
 .tarjeta-dias,
-.columna-derecha {
-  background-color: black;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  min-height: 100px;
+.columna-derecha{ composes: card; } /* Si tu build no soporta 'composes', duplica la clase: */
+.titulo-ejercicio,.tarjeta-ejercicio,.tarjeta-dias,.columna-derecha{ background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px;position:relative; }
+
+.titulo-ejercicio{display:flex;align-items:center;justify-content:center}
+.titulo-ejercicio h2{margin:0;font-weight:800;letter-spacing:.2px}
+
+.tarjeta-ejercicio{min-height:220px}
+.tarjeta-dias{min-height:64px}
+
+.zona-ejercicio{display:grid;gap:16px}
+
+/* Encabezado de la derecha */
+.columna-derecha{display:grid;gap:14px}
+.encabezado-grafico{display:flex;align-items:center;gap:12px;justify-content:space-between}
+
+/* Select estilizado */
+#selectorGrafico{
+  appearance:none;background:#141211;color:#f3e8e4;border:1px solid var(--line);
+  padding:10px 14px;border-radius:999px;font-weight:700;letter-spacing:.2px;cursor:pointer;
+  transition:filter .2s ease, box-shadow .2s ease
+}
+#selectorGrafico:hover{filter:brightness(1.08)}
+#selectorGrafico:focus{outline:none;box-shadow:0 0 0 3px rgba(250,108,6,.24);border-color:#FA6C06}
+
+/* Canvas contenedor con glow */
+#graficoEntrenamientos{
+  width:100%!important;height:320px!important;display:block
+}
+.columna-derecha::before{
+  content:"";position:absolute;inset:-20px -20px auto -20px;height:120px;border-radius:22px;
+  background:
+    radial-gradient(circle at 60% 40%, rgba(250,108,6,.25), transparent 52%),
+    radial-gradient(circle at 30% 70%, rgba(215,170,24,.20), transparent 58%);
+  filter:blur(24px);opacity:.55;pointer-events:none
 }
 
-.titulo-ejercicio { height: 50px; }
-.tarjeta-ejercicio { height: 300px; }
-.tarjeta-dias { height: 50px; }
+/* Tipografía menor */
+h2,h3{color:#fff}
+p{color:#f6efe9}
 
-.columna-derecha {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+/* ===== Responsive ===== */
+@media (max-width:1100px){
+  .zona-contenido{grid-template-columns:1fr}
+  #graficoEntrenamientos{height:280px!important}
 }
 
-#graficoEntrenamientos {
-  width: 100% !important;
-  height: 300px !important;
+
+/* Ola inferior */
+.wave{
+  position:fixed;
+  left:0; right:0; bottom:0;
+  z-index:-1;   /* detrás del contenido */
+  pointer-events:none; /* no molesta */
+}
+.wave svg{
+  width:100%;
+  height:160px; /* ajusta altura */
+  display:block;
 }
 
-.encabezado-grafico {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.encabezado-grafico h2 {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.encabezado-grafico select {
-  background-color: #1f2937;
-  color: white;
-  border: 1px solid #4b5563;
-  border-radius: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-}

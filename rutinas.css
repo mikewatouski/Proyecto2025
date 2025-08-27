@@ -290,9 +290,41 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 
 /* Preview derecha */
 .preview{
-  height:420px;background:#0a0908;border:1px solid var(--line);
-  border-radius:12px;padding:14px;color:#fff
+  height: clamp(320px, 60vh, 420px); /* altura fija/fluida */
+  background:#0a0908;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  color:#fff;
+
+  overflow:auto;                     /* scroll interno */
+  -webkit-overflow-scrolling: touch; /* inercia en pantallas táctiles */
+  overscroll-behavior: contain;      /* no arrastra la página */
+  touch-action: pan-y;               /* gesto vertical en touch */
 }
+
+/* Scrollbar bonito (Chromium/Safari/Edge) */
+.preview::-webkit-scrollbar{ width: 12px; }
+.preview::-webkit-scrollbar-track{
+  background: rgba(255,255,255,.06);
+  border-radius: 8px;
+}
+.preview::-webkit-scrollbar-thumb{
+  background: #3a2f2b;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+.preview::-webkit-scrollbar-thumb:hover{ background:#4a3a35; }
+
+/* Firefox */
+@supports (scrollbar-color: auto) {
+  .preview{
+    scrollbar-width: thin;
+    scrollbar-color: #3a2f2b rgba(255,255,255,.06);
+  }
+}
+
 
 /* ===== Ola inferior (opcional si la tenés) ===== */
 .wave{position:fixed;left:0;right:0;bottom:0;z-index:-1}
@@ -314,4 +346,68 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui
 }
 @media (max-width:720px){
   .form-row{grid-template-columns:1fr;gap:10px}
+}
+
+/* === EDITOR (izquierda): alto fijo + scroll interno solo en las filas === */
+
+/* Fijamos la altura del card izquierdo en el modo editar */
+#mode-edit .grid-2 > .card:first-child{
+  height: clamp(360px, 66vh, 560px);   /* no crece más de 560px */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;                    /* el overflow lo maneja el cuerpo interno */
+}
+
+/* La zona de filas (stack-12 / #form-rows) es la que scrollea */
+#mode-edit .grid-2 > .card:first-child .stack-12,
+#mode-edit .grid-2 > .card:first-child #form-rows{
+  flex: 1;                             /* ocupa el alto disponible */
+  overflow: auto;                      /* barra propia */
+  -webkit-overflow-scrolling: touch;   /* inercia en táctiles */
+  overscroll-behavior: contain;        /* no arrastra la página */
+  padding-right: 6px;                  /* para que no tape el scroll */
+  margin-bottom: 8px;
+}
+
+/* Scrollbar estético para Chromium/Safari/Edge */
+#mode-edit .grid-2 > .card:first-child .stack-12::-webkit-scrollbar,
+#mode-edit .grid-2 > .card:first-child #form-rows::-webkit-scrollbar{
+  width: 12px;
+}
+#mode-edit .grid-2 > .card:first-child .stack-12::-webkit-scrollbar-track,
+#mode-edit .grid-2 > .card:first-child #form-rows::-webkit-scrollbar-track{
+  background: rgba(255,255,255,.06);
+  border-radius: 8px;
+}
+#mode-edit .grid-2 > .card:first-child .stack-12::-webkit-scrollbar-thumb,
+#mode-edit .grid-2 > .card:first-child #form-rows::-webkit-scrollbar-thumb{
+  background: #3a2f2b;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+#mode-edit .grid-2 > .card:first-child .stack-12::-webkit-scrollbar-thumb:hover,
+#mode-edit .grid-2 > .card:first-child #form-rows::-webkit-scrollbar-thumb:hover{
+  background:#4a3a35;
+}
+
+/* Firefox */
+@supports (scrollbar-color: auto){
+  #mode-edit .grid-2 > .card:first-child .stack-12,
+  #mode-edit .grid-2 > .card:first-child #form-rows{
+    scrollbar-width: thin;
+    scrollbar-color: #3a2f2b rgba(255,255,255,.06);
+  }
+}
+
+/* Las acciones quedan siempre visibles (pegadas abajo) */
+#mode-edit .grid-2 > .card:first-child .actions{
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(15,15,16,0) 0%,
+                           rgba(15,15,16,.85) 40%,
+                           rgba(15,15,16,1) 100%);
+  padding-top: 10px;
 }

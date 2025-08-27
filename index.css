@@ -52,16 +52,7 @@ body{
 }
 .subtitle{color:var(--muted); font-size:1.125rem; max-width:620px; margin:0 0 24px}
 
-/* Panel decorativo (lado derecho) */
-.panel{
-  width:100%; aspect-ratio:4/3; border-radius:22px;
-  background:
-    radial-gradient(120% 120% at 80% 30%, rgba(255,255,255,.10), transparent 55%),
-    radial-gradient(100% 140% at 10% 110%, #d7aa18, transparent 60%),
-    linear-gradient(135deg, rgba(255,0,79,.35), #FA4300);
-  border:1px solid rgba(255,255,255,.08);
-  box-shadow:0 20px 60px rgba(0,0,0,.45), inset 0 0 40px rgba(255,42,118,.15);
-}
+
 /* Ola inferior */
 .wave {
   position: fixed;   /* ahora siempre abajo */
@@ -111,3 +102,71 @@ body{
   .grid{grid-template-columns:1fr; gap:24px; padding-block:48px}
   .panel{aspect-ratio:16/9}
 }
+
+/* Contenedor: colocado a la derecha como ya lo tenías */
+/* El contenedor del boxeador ahora es overlay y no empuja nada */
+.hero-figure{
+  position: absolute;
+  right: 8vw;              /* lo mantenés a la derecha */
+  top: 50%;                /* centrado vertical respecto al hero */
+  transform: translateY(-50%);
+  width: min(36vw, 520px);
+  aspect-ratio: 3/5;
+  pointer-events: none;    /* para no tapar el CTA */
+  z-index: 2;              /* por encima del fondo, debajo del navbar si querés */
+}
+
+
+/* El boxeador “épico” */
+#boxer{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+
+  /* entrada + flotación + brillo cálido */
+  animation: boxerIn .9s cubic-bezier(.2,.8,.2,1) both,
+             boxerFloat 6s ease-in-out infinite;
+  filter:
+    drop-shadow(0 30px 60px rgba(0,0,0,.55))
+    drop-shadow(0 0 22px rgba(255, 0, 102, .18))
+    drop-shadow(0 0 40px rgba(255, 102, 0, .12));
+  will-change: transform, filter;
+  transform-origin: 50% 70%;
+}
+
+/* highlight al pasar el mouse (sin mover layout) */
+.hero-figure:hover #boxer{
+  filter:
+    drop-shadow(0 34px 70px rgba(0,0,0,.6))
+    drop-shadow(0 0 26px rgba(255, 0, 102, .24))
+    drop-shadow(0 0 50px rgba(255, 102, 0, .18));
+}
+
+/* Animaciones */
+@keyframes boxerIn{
+  from{
+    opacity: 0;
+    transform: translate3d(40px,30px,0) scale(.94) rotateX(8deg);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,.3));
+  }
+  to{
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1) rotateX(0deg);
+  }
+}
+
+@keyframes boxerFloat{
+  0%,100%{ transform: translateY(0) }
+  50%{    transform: translateY(-10px) }
+}
+
+
+@media (max-width: 960px){
+  .hero-figure{
+    opacity: 0;
+    transform: translateY(10px) scale(.98);
+    visibility: hidden;   /* evita que ocupe foco/clicks */
+    pointer-events: none;
+    display: none;        /* si querés quitarlo del flujo definitivamente */
+  }

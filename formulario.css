@@ -152,3 +152,32 @@ body{
     color: #FF4D00;
   }
   
+  /* === LOGO en formularios === */
+.form-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-top: 10px;
+}
+
+.form-logo {
+  width: 60px;        /* tamaño óptimo */
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+/* Efecto hover sutil */
+.form-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px rgba(250, 67, 0, 0.6));
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .form-logo {
+    width: 48px;
+  }
+}

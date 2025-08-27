@@ -9,6 +9,9 @@
    let data = loadData();
    let mode = "view";                   // 'view' | 'edit'
    let day = DAYS[0];                   // día activo
+   let lastDayView = DAYS[0]; // último día usado en Rutina (vista)
+   let lastDayEdit = DAYS[0]; // último día usado en Editar
+
    let idx = 0;                         // index de ejercicio en "view"
    
    /* ---------- Referencias DOM ---------- */
@@ -54,26 +57,29 @@
      pillEdit.addEventListener('click', ()=> setMode('edit'));
    
      // Día (vista)
-     dayBtnsView.forEach(b=>{
-       b.addEventListener('click', ()=>{
-         day = b.dataset.dia;
-         idx = 0;
-         markActiveDay(dayBtnsView, day, 'dia');
-         renderView();
-       });
-     });
-   
-     // Día (editor)
-     dayBtnsEdit.forEach(b=>{
-       b.addEventListener('click', ()=>{
-         day = b.dataset.diaEdit;         // Sábado, Domingo, etc.
-         idx = 0;                         // opcional: reset al primer ejercicio
-         editDiaSpan.textContent = day;   // muestra el día en el título
-         markActiveDay(dayBtnsEdit, day, 'diaEdit');
-         renderEdit();                    // refresca el formulario
-         renderLists();                   // refresca la vista previa derecha
-       });
-     });
+dayBtnsView.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    day = b.dataset.dia;
+    lastDayView = day;                  // <— guarda el último día de VISTA
+    idx = 0;
+    markActiveDay(dayBtnsView, day, 'dia');
+    renderView();
+  });
+});
+
+// Día (editor)
+dayBtnsEdit.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    day = b.dataset.diaEdit;
+    lastDayEdit = day;                  // <— guarda el último día de EDIT
+    idx = 0;
+    editDiaSpan.textContent = day;
+    markActiveDay(dayBtnsEdit, day, 'diaEdit');
+    renderEdit();
+    renderLists();
+  });
+});
+
    
      // Navegación ejercicios
      btnPrev.addEventListener('click', ()=> {
@@ -123,21 +129,31 @@
    }
    
    function setMode(nextMode, opts={}){
-     mode = nextMode;
-     pillView.classList.toggle('active', mode === 'view');
-     pillEdit.classList.toggle('active', mode === 'edit');
-     modeView.classList.toggle('visible', mode === 'view');
-     modeEdit.classList.toggle('visible', mode === 'edit');
-   
-     if (mode === 'edit') {
-       editDiaSpan.textContent = day;   // asegura que diga “Edición rutina día X”
-     }
-   
-     if (!opts.skipRender){
-       if (mode === 'view') { renderView(); }
-       else { renderEdit(); renderLists(); }
-     }
-   }
+    mode = nextMode;
+    pillView.classList.toggle('active', mode === 'view');
+    pillEdit.classList.toggle('active', mode === 'edit');
+    modeView.classList.toggle('visible', mode === 'view');
+    modeEdit.classList.toggle('visible', mode === 'edit');
+  
+    if (!opts.skipRender){
+      if (mode === 'view') {
+        // volver al último día usado en Rutina
+        day = lastDayView || DAYS[0];
+        idx = 0;
+        markActiveDay(dayBtnsView, day, 'dia');
+        renderView();
+      } else {
+        // volver al último día usado en Editar
+        day = lastDayEdit || DAYS[0];
+        idx = 0;
+        editDiaSpan.textContent = day;
+        markActiveDay(dayBtnsEdit, day, 'diaEdit');
+        renderEdit();
+        renderLists();
+      }
+    }
+  }
+  
    
    function renderView(){
      renderViewer();

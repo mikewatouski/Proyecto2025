@@ -1,0 +1,240 @@
+{
+  "Lunes": [
+    {
+      "nombre": "Press banca",
+      "peso": 40,
+      "sets": 3,
+      "reps": 10,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2kJveq9794cySMXGh6ehsJFpWybIuKfLIqw&s"
+    },
+    {
+      "nombre": "Fondos en paralelas",
+      "peso": 0,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Parallel-Dip-Bar_600x600.png?v=1619977962"
+    },
+    {
+      "nombre": "Aperturas mancuernas",
+      "peso": 12,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrabpVzpblaU1F6moowgaOi-fRtRtHqJX7cw&s"
+    },
+    {
+      "nombre": "Press francés",
+      "peso": 20,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmow6avBz9xLDXWrkmkJbmOgMUTm1KF02Qaw&s"
+    },
+    {
+      "nombre": "Flexiones",
+      "peso": 0,
+      "sets": 3,
+      "reps": 15,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVE7tL3hzV7iHS_mXrdvZMwF6uLgwrvCHNaw&s"
+    }
+  ],
+  "Martes": [
+    {
+      "nombre": "Dominadas",
+      "peso": 0,
+      "sets": 3,
+      "reps": 8,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZPLlcjjt940717bn-skYs5Dqi_fwtTxv9Fw&s"
+    },
+    {
+      "nombre": "Remo con barra",
+      "peso": 35,
+      "sets": 3,
+      "reps": 10,
+      "img": "https://eresfitness.com/wp-content/uploads/00271105-Barbell-Bent-Over-Row_Back-FIX_max.webp"
+    },
+    {
+      "nombre": "Peso muerto",
+      "peso": 50,
+      "sets": 3,
+      "reps": 8,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOnpkWeSiPDf-7vuxYUP3EoZXYDPr4Vf5GYg&s"
+    },
+    {
+      "nombre": "Curl bíceps barra",
+      "peso": 20,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://static.strengthlevel.com/images/exercises/barbell-curl/barbell-curl-800.jpg"
+    },
+    {
+      "nombre": "Curl martillo",
+      "peso": 12,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVaRHl3zzhXaLFoW0UhI915d6KcONr-2pOAw&s"
+    }
+  ],
+  "Miércoles": [
+    {
+      "nombre": "Sentadilla",
+      "peso": 45,
+      "sets": 3,
+      "reps": 10,
+      "img": "https://static.strengthlevel.com/images/exercises/squat/squat-800.jpg"
+    },
+    {
+      "nombre": "Prensa de piernas",
+      "peso": 80,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://static.strengthlevel.com/images/exercises/sled-leg-press/sled-leg-press-800.jpg"
+    },
+    {
+      "nombre": "Peso muerto rumano",
+      "peso": 40,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://cdn.shopify.com/s/files/1/0425/7667/4983/files/3_3b9d091a-c44e-4875-8a5c-58b024b403c1.png?v=1706627159"
+    },
+    {
+      "nombre": "Estocadas",
+      "peso": 10,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://eresfitness.com/wp-content/uploads/03361105-Dumbbell-Lunge_Hips_max.jpg.webp"
+    },
+    {
+      "nombre": "Elevaciones de talones",
+      "peso": 20,
+      "sets": 3,
+      "reps": 15,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjyXrWtNdJhW0X8BfWMumw25VCsl3fdhHdlw&s"
+    }
+  ],
+  "Jueves": [
+    {
+      "nombre": "Press militar",
+      "peso": 25,
+      "sets": 3,
+      "reps": 10,
+      "img": "https://mundoentrenamiento.com/wp-content/uploads/2019/06/press-militar-con-mancuernas.jpg"
+    },
+    {
+      "nombre": "Elevaciones laterales",
+      "peso": 8,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrll1Mgfd3s72BZXrmYAzL-DXEi0EluYutEg&s"
+    },
+    {
+      "nombre": "Pájaros posteriores",
+      "peso": 8,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWixPAgvd9nLqxT3qrHurWhyydFPP-c19PRA&s"
+    },
+    {
+      "nombre": "Encogimientos trapecio",
+      "peso": 30,
+      "sets": 3,
+      "reps": 15,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2oQyBE16PNlgvOkgA6BskcG9VFLQodjSQVg&s"
+    },
+    {
+      "nombre": "Plancha abdominal",
+      "peso": 0,
+      "sets": 3,
+      "reps": 45,
+      "img": "https://mejorconsalud.as.com/wp-content/uploads/2016/11/Hacer-plank-todos-los-di%CC%81as.jpg?auto=webp&quality=7500&width=1920&crop=16:9,smart,safe&format=webp&optimize=medium&dpr=2&fit=cover&fm=webp&q=75&w=1920&h=1080"
+    },
+    {
+      "nombre": "Crunch abdominal",
+      "peso": 0,
+      "sets": 3,
+      "reps": 20,
+      "img": "https://www.mayoclinic.org/-/media/kcms/gbs/patient-consumer/images/2017/01/25/20/47/sm00047-abdominal-crunch-8col.jpg"
+    }
+  ],
+  "Viernes": [
+    {
+      "nombre": "Burpees",
+      "peso": 0,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://media.sitioandino.com.ar/p/f1abfb8b141b6cf85bc8824bce964bc5/adjuntos/335/imagenes/000/639/0000639943/790x0/smart/burpees-musculos-1024x622jpg.jpg"
+    },
+    {
+      "nombre": "Kettlebell swing",
+      "peso": 16,
+      "sets": 3,
+      "reps": 15,
+      "img": "https://weighttraining.guide/wp-content/uploads/2017/03/Kettlebell-Swing-resized.png"
+    },
+    {
+      "nombre": "Sentadilla + press",
+      "peso": 12,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://media.vogue.es/photos/601c1690b77a65d7f908a0cb/master/w_1600%2Cc_limit/tabla%2520de%2520ejercicios7_Mesa%2520de%2520trabajo%25201%2520copia%25208.jpg"
+    },
+    {
+      "nombre": "Dominadas",
+      "peso": 0,
+      "sets": 3,
+      "reps": 10,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZPLlcjjt940717bn-skYs5Dqi_fwtTxv9Fw&s"
+    },
+    {
+      "nombre": "Fondos en banco",
+      "peso": 0,
+      "sets": 3,
+      "reps": 12,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKWrxwCyQvG5EMhUQNoUuICoj2-fQq9QM-Uw&s"
+    },
+    {
+      "nombre": "Cardio (cinta/bici)",
+      "peso": 0,
+      "sets": 1,
+      "reps": 20,
+      "img": "https://www.sportvicious.com/wp-content/uploads/2019/05/%C2%BFCINTA-DE-CORRER-O-BICICLETA-EL%C3%8DPTICA-PONTE-EN-FORMA-EN-TU-HOGAR-2019-Sportvicious-700x350.jpg"
+    }
+  ],
+  "Sábado": [
+    {
+      "nombre": "Correr/Bici",
+      "peso": 0,
+      "sets": 1,
+      "reps": 40,
+      "img": "https://cdn.brujulabike.com/media/50718/conversions/captura-captura-1600.jpg"
+    },
+    {
+      "nombre": "Plancha lateral",
+      "peso": 0,
+      "sets": 3,
+      "reps": 30,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx_ftFtrE6GIZebe_qQbYPZK_DtIZ7wCp2Bw&s"
+    },
+    {
+      "nombre": "Mountain climbers",
+      "peso": 0,
+      "sets": 3,
+      "reps": 20,
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC2p0agPwrmfXcKThj00k3uWOft2A4oLnUTg&s"
+    },
+    {
+      "nombre": "Elevaciones de piernas",
+      "peso": 0,
+      "sets": 3,
+      "reps": 15,
+      "img": "https://fitcron.com/wp-content/uploads/2024/05/04841301-Hip-Raise-bent-knee_waist_720.gif"
+    }
+  ],
+  "Domingo": [
+    {
+      "nombre": "Caminata/Yoga/Estiramientos",
+      "peso": 0,
+      "sets": 1,
+      "reps": 30,
+      "img": "https://i0.wp.com/quiurevista.com/wp-content/uploads/2023/06/estiramientos-brazos.png?resize=1280%2C640&ssl=1"
+    }
+  ]
+}

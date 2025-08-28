@@ -3,7 +3,13 @@
    ========================================================= */
 
 const DAYS = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
-const STORAGE_KEY = "rutinas:data:v1";
+// Antes:
+// const STORAGE_KEY = "rutinas:data:v1";
+
+// Ahora:
+const UID = localStorage.getItem('CURRENT_USER') || 'guest';
+const STORAGE_KEY = `rutinas:data:v1:${UID}`;
+
 
 /* ---------- Estado ---------- */
 let data = loadData();               // carga base (y luego actualiza con fetch)
@@ -481,4 +487,24 @@ function basePlan(){
   imgSmall.addEventListener('click', open);
   closeBtn.addEventListener('click', close);
   overlay.addEventListener('click', (e)=>{ if (e.target === overlay) close(); });
+})();
+
+(function loadAvatar(){
+  const KEY = "CURRENT_USER";
+  const usersKey = "users:data:v1";
+  const uid = localStorage.getItem(KEY);
+  if(!uid) return;
+
+  const users = JSON.parse(localStorage.getItem(usersKey) || "{}");
+  const user = users[uid];
+  if(!user || !user.profile) return;
+
+  const $avatar = document.getElementById("perfilAvatar");
+  if($avatar){
+    if(user.profile.avatar){   // si subió foto
+      $avatar.src = user.profile.avatar;
+    } else {
+      $avatar.src = "Logo.png"; // fallback si no tiene imagen
+    }
+  }
 })();

@@ -12,13 +12,18 @@
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <header class="nav container">
-    <img src="logo.png" alt="Logo" class="logo" />
-    <nav class="menu">
-      <a class="btn btn--ghost" href="login.html">Iniciar sesión</a>
-      <a class="btn btn--ghost" href="registro.html">Regístrate</a>
-    </nav>
-  </header>
+<header class="nav container">
+  <img src="Logo.png" alt="Logo" class="logo" />
+  <nav class="menu">
+    <a id="btnLogin" class="btn btn--ghost" href="login.html">Iniciar sesión</a>
+    <a id="btnRegister" class="btn btn--ghost" href="registro.html">Regístrate</a>
+    <a id="btnPerfil" class="btn btn--ghost" href="perfil.html" hidden>Perfil</a>
+    <a id="btnLogout" class="btn btn--ghost" href="#" hidden>Salir</a>
+  </nav>
+</header>
+
+
+
 
   <main class="hero">
     <div class="container grid">
@@ -51,6 +56,9 @@
   </main>
 
   <!-- JS -->
-  <script src="index.js"></script>
+<script type="module" src="auth.js"></script>
+<script type="module" src="index.js"></script>
+
+
 </body>
 </html>

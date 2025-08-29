@@ -47,5 +47,5 @@ app.post('/api/plan', (req, res) => {
 });
 
 app.listen(APP_PORT, () => {
-  console.log(` Servidor arriba en http://localhost:${APP_PORT}`);
+  console.log(` Servidor en http://localhost:${APP_PORT}`);
 });

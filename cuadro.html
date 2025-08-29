@@ -24,7 +24,9 @@
   <main class="contenido-principal">
     <!-- Navbar superior -->
     <div class="barra-superior">
-      <img src="perfil.png" alt="Perfil" class="perfil" />
+      <a href="perfil.html">
+      <img id="perfilAvatar" src="Logo.png" alt="Perfil" class="perfil" />
+    </a>
     </div>
 
     <hr class="hr" />
@@ -49,17 +51,15 @@
         <label for="selectorGrafico" class="font-bold block mb-1">Gráfico:</label>
         <select id="selectorGrafico" class="text-black mb-3 p-1 rounded">
           <option value="completados">Entrenamientos Completados</option>
-          <option value="duracion">Duración Promedio</option>
+          <option value="duracion">Volumen (kg·reps)</option>
         </select>
 
         <h3 id="tituloGrafico" class="text-lg font-semibold mb-2">Entrenamientos Completados</h3>
         <canvas id="graficoEntrenamientos"></canvas>
       </div>
-
-      
-
     </div>
 
+    <!-- Ola inferior -->
     <div class="wave" aria-hidden="true">
       <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
         <defs>

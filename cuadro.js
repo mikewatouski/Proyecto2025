@@ -176,3 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 })();
+
+  const STORAGE_KEY = "rutinas:data:v1";
+
+  function guardarEjercicio(dia, nombre, peso, reps, imgUrl="") {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    if (!data[dia]) data[dia] = [];
+    data[dia].push({ nombre, peso: Number(peso)||0, reps: Number(reps)||0, img: imgUrl });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }

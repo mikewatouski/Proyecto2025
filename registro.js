@@ -1,57 +1,27 @@
-// ========== registro.js ==========
-const form = document.getElementById('form-registro');
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-if (form) {
-  form.addEventListener('submit', (e)=>{
-    e.preventDefault();
+const SUPABASE_URL = 'https://<project-ref>.supabase.co'
+const SUPABASE_ANON_KEY = '<TU_ANON_PUBLIC_KEY>'
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-    const nombre   = (form.nombre?.value || '').trim();
-    const emailRaw = (form.email?.value  || '').trim();
-    const pass     = (form.password?.value || '').trim();
-    const email = emailRaw.toLowerCase();
+const form = document.getElementById('form-registro')
+form.addEventListener('submit', async (e) => {
+  e.preventDefault()
+  const email = form.email.value
+  const password = form.password.value
 
-    if (!nombre)  return alert('Por favor ingresá tu nombre.');
-    if (!email)   return alert('Por favor ingresá tu email.');
-    if (!pass || pass.length < 6) return alert('La contraseña debe tener al menos 6 caracteres.');
-
-    const users = getUsers();
-    const current = users[email];
-
-    if (current) {
-      // Si existe, permito loguear si la pass coincide
-      if (current.password === pass) {
-        setCurrentUser(email);
-        alert('¡Bienvenido! Sesión iniciada.');
-        window.location.href = 'index.html';
-        return;
-      } else {
-        alert('Ese email ya existe, pero la contraseña no coincide. Probá iniciar sesión.');
-        return;
-      }
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: 'http://localhost:5500/confirm.html'
     }
+  })
 
-    // Crear nuevo usuario
-    users[email] = {
-      profile: {
-        nombre,
-        email,
-        avatar: null,
-        deporte: '',
-        objetivo: '',
-        dificultad: '',
-        edad: null,
-        peso: null,
-        altura: null
-      },
-      password: pass,              // (demo) en producción, nunca en claro
-      createdAt: Date.now(),
-      updatedAt: Date.now()
-    };
-
-    saveUsers(users);
-    setCurrentUser(email);
-
-    alert('¡Cuenta creada y sesión iniciada!');
-    window.location.href = 'index.html';
-  });
-}
+  if (error) {
+    console.error(error)
+    alert(error.message)
+  } else {
+    alert('Revisá tu email para confirmar la cuenta')
+  }
+})

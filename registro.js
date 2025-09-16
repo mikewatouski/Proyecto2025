@@ -1,27 +1,38 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+// registro.js — usa Supabase
+const form = document.getElementById('form-registro');
 
-const SUPABASE_URL = 'https://<project-ref>.supabase.co'
-const SUPABASE_ANON_KEY = '<TU_ANON_PUBLIC_KEY>'
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+if (form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-const form = document.getElementById('form-registro')
-form.addEventListener('submit', async (e) => {
-  e.preventDefault()
-  const email = form.email.value
-  const password = form.password.value
+    const nombre = (form.nombre?.value || '').trim();
+    const email  = (form.email?.value  || '').trim().toLowerCase();
+    const pass   = (form.password?.value || '').trim();
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: 'http://localhost:5500/confirm.html'
+    if (!nombre) return alert('Por favor ingresá tu nombre.');
+    if (!email)  return alert('Por favor ingresá tu email.');
+    if (!pass || pass.length < 6) return alert('La contraseña debe tener al menos 6 caracteres.');
+
+    try {
+      const { data, error } = await sb.auth.signUp({ email, password: pass });
+      if (error) throw error;
+
+      // Si hay sesión, upsert inmediato; si no, esperamos a que confirme y luego hará login.
+      if (data.session) {
+        await sb.from('profiles').upsert(
+          { id: data.user.id, email, nombre },
+          { onConflict: 'id' }
+        );
+        localStorage.setItem('CURRENT_USER', data.user.id);
+        alert('¡Cuenta creada y sesión iniciada!');
+        window.location.href = 'index.html';
+      } else {
+        alert('Te enviamos un mail para confirmar la cuenta. Luego iniciá sesión.');
+        // Acá NO hacemos upsert porque auth.uid() es NULL.
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.message || 'Error al registrarte.');
     }
-  })
-
-  if (error) {
-    console.error(error)
-    alert(error.message)
-  } else {
-    alert('Revisá tu email para confirmar la cuenta')
-  }
-})
+  });
+}

@@ -1,34 +1,42 @@
-// auth.js — Inicializa Supabase y expone helpers de Auth + CRUD
-// 🔧 REEMPLAZÁ con tus credenciales reales:
-const SUPABASE_URL = "https://TU-PROJECT-REF.supabase.co";
-const SUPABASE_ANON_KEY = "TU_SUPABASE_ANON_KEY";
+// auth.js — Supabase only + shims de compatibilidad
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// Requiere que en el HTML esté cargado ANTES el SDK:
-// <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-if (!window.supabase) {
-  throw new Error("Falta cargar el SDK de Supabase antes de auth.js");
-}
+const SUPABASE_URL = "https://nnlsljjdoyfzfabfnxxf.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ubHNsampkb3lmemZhYmZueHhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMjY2NzYsImV4cCI6MjA3MzYwMjY3Nn0.qQ_UgcNtbZtJe-ucVtqO0AT9usMuovQj2WtaGxNACsc";
 
-window.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.sb = sb; // por si querés usarlo en consola
 
-/* ---------- AUTH ---------- */
+// ---------- Helpers de Auth ----------
 window.sbSignUp = async function sbSignUp(email, password, nombre) {
   const { data, error } = await sb.auth.signUp({ email, password });
   if (error) throw error;
-  const userId = data.user.id;
-  const { error: perr } = await sb.from("profiles").upsert({ id: userId, nombre });
+
+  const user = data.user;
+  // guardo ID local para compatibilidad con el resto de la app
+  if (user?.id) localStorage.setItem("CURRENT_USER", user.id);
+
+  // perfil básico (asegurate de tener tabla "profiles" con columna id uuid PK)
+  const { error: perr } = await sb.from("profiles")
+    .upsert({ id: user.id, email, nombre }, { onConflict: "id" });
   if (perr) throw perr;
-  return data.user;
+
+  return user;
 };
 
 window.sbSignIn = async function sbSignIn(email, password) {
   const { data, error } = await sb.auth.signInWithPassword({ email, password });
   if (error) throw error;
-  return data.user;
+
+  const { data: me } = await sb.auth.getUser();
+  const user = me?.user ?? null;
+  if (user?.id) localStorage.setItem("CURRENT_USER", user.id);
+  return user;
 };
 
 window.sbSignOut = async function sbSignOut() {
   await sb.auth.signOut();
+  localStorage.removeItem("CURRENT_USER");
 };
 
 window.sbGetUser = async function sbGetUser() {
@@ -36,54 +44,17 @@ window.sbGetUser = async function sbGetUser() {
   return data.user ?? null;
 };
 
-/* ---------- RUTINAS CRUD ---------- */
-window.sbCrearRutina = async function sbCrearRutina(titulo, objetoRutina) {
-  const { data: { user } } = await sb.auth.getUser();
-  if (!user) throw new Error("No logueado");
-  const { data, error } = await sb.from("rutinas")
-    .insert({ user_id: user.id, titulo, data: objetoRutina })
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+// ---------- Shims de compatibilidad (para index.js que los consulta) ----------
+window.getCurrentUser = function getCurrentUser() {
+  // devuelve el ID cacheado (no hace llamada async)
+  return localStorage.getItem("CURRENT_USER");
+};
+window.logout = function logout() {
+  // usado por el menú
+  window.sbSignOut();
 };
 
-window.sbListarRutinas = async function sbListarRutinas() {
-  const { data: { user } } = await sb.auth.getUser();
-  if (!user) throw new Error("No logueado");
-  const { data, error } = await sb.from("rutinas")
-    .select("id, titulo, data, created_at")
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return data;
-};
+// (opcional) bandera para debug
+window.__AUTH_READY__ = true;
 
-window.sbActualizarRutina = async function sbActualizarRutina(id, cambios) {
-  const { data, error } = await sb.from("rutinas")
-    .update(cambios) // { titulo?, data? }
-    .eq("id", id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
-};
-
-window.sbBorrarRutina = async function sbBorrarRutina(id) {
-  const { error } = await sb.from("rutinas").delete().eq("id", id);
-  if (error) throw error;
-  return true;
-};
-
-/* ---------- Migrar LocalStorage → Nube (opcional) ---------- */
-window.sbMigrarLocal = async function sbMigrarLocal() {
-  const str = localStorage.getItem("rutinas");
-  if (!str) return 0;
-  const arr = JSON.parse(str);
-  let count = 0;
-  for (const r of arr) {
-    await window.sbCrearRutina(r.titulo ?? "Rutina", r);
-    count++;
-  }
-  // localStorage.removeItem("rutinas"); // si querés limpiar
-  return count;
-};
+export { sb as supabase };

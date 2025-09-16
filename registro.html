@@ -6,6 +6,7 @@
   <title>Registro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="registro.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <main class="auth">
@@ -33,7 +34,7 @@
           <input type="password" name="password" placeholder="mínimo 6 caracteres" minlength="6" required>
         </label>
         <label>Confirmar contraseña
-          <input type="password" name="password" placeholder="repetir contraseña ingresada" minlength="6" required>
+          <input type="password" name="password2" placeholder="repetir contraseña ingresada" minlength="6" required>
         </label>
 
         <button class="btn" type="submit">Registrarme</button>

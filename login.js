@@ -1,23 +1,20 @@
-// ========== login.js ==========
-const formLogin = document.getElementById('form-login');
+// login.js — Conecta tu formulario de login con Supabase
+(function () {
+  const form =
+    document.getElementById("form-login") ||
+    document.querySelector("form[action*='login'], form#login, form[name='login']");
+  if (!form) return;
 
-if (formLogin) {
-  formLogin.addEventListener('submit', (e)=>{
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const email = (form.email?.value || form.querySelector("input[name='email']")?.value || "").trim();
+    const password = (form.password?.value || form.querySelector("input[name='password']")?.value || "");
 
-    const email = (formLogin.email?.value || '').trim().toLowerCase();
-    const pass  = (formLogin.password?.value || '').trim();
-
-    if (!email || !pass) return alert('Completá email y contraseña.');
-
-    const users  = getUsers();
-    const record = users[email];
-
-    if (!record) return alert('No existe una cuenta con ese email. Registrate.');
-    if (record.password !== pass) return alert('Contraseña incorrecta.');
-
-    setCurrentUser(email);
-    alert('¡Sesión iniciada!');
-    window.location.href = 'index.html';
+    try {
+      await sbSignIn(email, password);
+      window.location.href = "rutinas.html";
+    } catch (err) {
+      alert("Error al ingresar: " + err.message);
+    }
   });
-}
+})();

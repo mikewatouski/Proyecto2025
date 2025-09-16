@@ -1,2 +1,19 @@
 abrir sv
 node server.js
+
+
+https://nnlsljjdoyfzfabfnxxf.supabase.co
+
+key
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ubHNsampkb3lmemZhYmZueHhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMjY2NzYsImV4cCI6MjA3MzYwMjY3Nn0.qQ_UgcNtbZtJe-ucVtqO0AT9usMuovQj2WtaGxNACsc
+
+
+js
+
+
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://nnlsljjdoyfzfabfnxxf.supabase.co'
+const supabaseKey = process.env.SUPABASE_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)

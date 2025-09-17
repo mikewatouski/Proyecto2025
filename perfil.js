@@ -20,10 +20,8 @@ async function init(){
   user = await getUser();
   if (!user) { window.location.href = 'login.html'; return; }
 
-  // 1) Traer o crear perfil
   profile = await ensureProfile(user);
 
-  // 2) Si la cuenta fue eliminada (soft delete), bloquear y salir
   if (profile?.is_deleted) {
     try { await sb.auth.signOut(); } catch {}
     alert('Tu cuenta fue eliminada. No podés usar el perfil.');
@@ -31,10 +29,8 @@ async function init(){
     return;
   }
 
-  // 3) Pintar formulario
   fillForm(profile);
 
-  // 4) Avatar
   if (profile.avatar_url){
     avatarImg.src = profile.avatar_url;
     avatarImg.style.display = 'block';
@@ -47,30 +43,22 @@ async function init(){
 /* ========= Helpers ========= */
 
 async function ensureProfile(user){
-  // intenta leer
   const { data, error } = await sb
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .maybeSingle();
 
-  if (error && error.code !== 'PGRST116') throw error; // error real
-
+  if (error && error.code !== 'PGRST116') throw error;
   if (data) return data;
 
-  // si no existe, crearlo con metadata básica
   const base = {
     id: user.id,
     email: user.email,
     nombre: user.user_metadata?.nombre || null,
-    deporte: null,
-    objetivo: null,
-    dificultad: null,
-    edad: null,
-    peso: null,
-    altura: null,
-    avatar_url: null,
-    is_deleted: false
+    deporte: null, objetivo: null, dificultad: null,
+    edad: null, peso: null, altura: null,
+    avatar_url: null, is_deleted: false
   };
   const { data: created, error: upErr } = await sb
     .from('profiles')
@@ -82,7 +70,7 @@ async function ensureProfile(user){
 }
 
 function fillForm(p){
-  form.nombre.value      = p?.nombre    ?? '';
+  form.nombre.value      = p?.nombre    ?? (user?.nombre || '');
   form.email.value       = p?.email     ?? (user?.email || '');
   form.deporte.value     = p?.deporte   ?? '';
   form.objetivo.value    = p?.objetivo  ?? '';
@@ -92,7 +80,7 @@ function fillForm(p){
   form.altura.value      = p?.altura    ?? '';
 }
 
-function nz(v){ // normaliza: '' -> null, trim
+function nz(v){
   if (v === undefined || v === null) return null;
   const s = String(v).trim();
   return s === '' ? null : s;
@@ -131,7 +119,7 @@ form?.addEventListener('submit', async (e)=>{
   const payload = {
     id: user.id,
     nombre:     nz(form.nombre.value),
-    email:      nz(form.email.value) || user.email, // nunca null por compat
+    email:      nz(form.email.value) || user.email,
     deporte:    nz(form.deporte.value),
     objetivo:   nz(form.objetivo.value),
     dificultad: nz(form.dificultad.value),
@@ -163,19 +151,20 @@ btnDelete?.addEventListener('click', async ()=>{
   if (!user) return;
 
   try {
-    // Conseguimos el access_token actual para enviarlo al server
     const { data: s } = await sb.auth.getSession();
     const token = s?.session?.access_token;
     if (!token) throw new Error("No session token");
 
-    const res = await fetch("http://localhost:3001/api/delete-account", {
+    // MISMO ORIGEN (evita CORS / Failed to fetch)
+    const res = await fetch("/api/delete-account", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
+      headers: { "Authorization": `Bearer ${token}` }
     });
-    const j = await res.json();
+
+    let j = {};
+    try { j = await res.json(); } catch {}
     if (!res.ok) throw new Error(j?.error || "No se pudo borrar");
 
-    // Logout local y redirigir
     await sb.auth.signOut().catch(()=>{});
     alert("Cuenta eliminada. Podés registrarte nuevamente cuando quieras.");
     window.location.href = "index.html";
@@ -183,4 +172,3 @@ btnDelete?.addEventListener('click', async ()=>{
     alert("Error al borrar la cuenta: " + (err.message || err));
   }
 });
-

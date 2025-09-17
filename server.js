@@ -14,7 +14,11 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
   console.error("❌ Faltan SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY en .env");
   process.exit(1);
 }
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+// Cliente ADMIN (Service Role) — ¡solo en backend!
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+  auth: { autoRefreshToken: false, persistSession: false },
+});
 
 // === Express ===
 const app = express();
@@ -38,7 +42,7 @@ app.get("/api/health", (_req, res) => {
   res.json({ ok: true, time: new Date().toISOString() });
 });
 
-// PLANES
+// ===================== PLANES =====================
 app.get("/api/plan", async (req, res) => {
   const uid = (req.query.uid || "guest").toLowerCase();
   const { data, error } = await supabase
@@ -69,7 +73,7 @@ app.post("/api/plan", async (req, res) => {
   res.json({ ok: true });
 });
 
-// PERFILES
+// ===================== PERFILES =====================
 app.get("/api/profile", async (req, res) => {
   const uid = (req.query.uid || "").toLowerCase();
   if (!uid) return res.status(400).json({ error: "Falta uid" });
@@ -97,6 +101,49 @@ app.post("/api/profile", async (req, res) => {
     return res.status(500).json({ error: "No se pudo guardar" });
   }
   res.json({ ok: true });
+});
+
+// ===================== DELETE ACCOUNT =====================
+// POST /api/delete-account  (Authorization: Bearer <access_token>)
+app.post("/api/delete-account", async (req, res) => {
+  try {
+    const auth = req.header("authorization") || "";
+    const token = auth.startsWith("Bearer ") ? auth.slice(7) : null;
+    if (!token) return res.status(401).json({ error: "Missing bearer token" });
+
+    // 1) Resolver usuario desde el token
+    const { data: userData, error: uErr } = await supabase.auth.getUser(token);
+    if (uErr || !userData?.user) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+    const u = userData.user;
+    const userId = u.id;
+    const userEmail = (u.email || "").toLowerCase();
+
+    // 2) Borrar filas auxiliares (mejor esfuerzo)
+    try { await supabase.from("profiles").delete().eq("id", userId); } catch {}
+    try { await supabase.from("profiles").delete().eq("uid", userId); } catch {}
+    try { await supabase.from("plans").delete().in("uid", [userId, userEmail]); } catch {}
+
+    // 3) Borrar archivos de avatar (bucket "avatars/userId/*")
+    try {
+      const AVATAR_BUCKET = "avatars";
+      const { data: files } = await supabase.storage.from(AVATAR_BUCKET).list(userId, { limit: 100 });
+      if (files?.length) {
+        await supabase.storage.from(AVATAR_BUCKET)
+          .remove(files.map(f => `${userId}/${f.name}`));
+      }
+    } catch {}
+
+    // 4) Borrar usuario de Auth (Service Role)
+    const { error: delErr } = await supabase.auth.admin.deleteUser(userId);
+    if (delErr) return res.status(400).json({ error: delErr.message });
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("DELETE ACCOUNT error:", err);
+    res.status(500).json({ error: "server_error", message: err.message });
+  }
 });
 
 // === Arrancar ===

@@ -1,51 +1,59 @@
-// server.js
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+// server.js (Express 5 + endpoint admin)
+import express from "express";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { createClient } from "@supabase/supabase-js";
 
-const APP_PORT = 3000;
-const FRONT_DIR = __dirname; // donde están tu index.html, rutinas.css, rutinas.js, etc.
-const PLAN_PATH = path.join(__dirname, 'plan.js');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = path.dirname(__filename);
 
 const app = express();
-app.use(express.json({ limit: '2mb' }));
+app.use(express.json());
 
-// servir archivos estáticos (tu HTML/CSS/JS)
-app.use(express.static(FRONT_DIR));
+// ⚠️ Variables de entorno: NO pongas la service role en el front
+const SUPABASE_URL   = "https://nnlsljjdoyfzfabfnxxf.supabase.co";
+const SERVICE_ROLE   = process.env.SUPABASE_SERVICE_ROLE;   // PONELA ANTES DE LEVANTAR EL SERVER
 
-// GET actual (lee plan.js fresco)
-app.get('/api/plan', (_req, res) => {
+if (!SERVICE_ROLE) {
+  console.warn("[WARN] Falta SUPABASE_SERVICE_ROLE en el entorno.");
+}
+
+const admin = createClient(SUPABASE_URL, SERVICE_ROLE, {
+  auth: { autoRefreshToken: false, persistSession: false }
+});
+
+// ====== Endpoint: borrar definitivamente la cuenta ======
+app.post("/api/delete-account", async (req, res) => {
   try {
-    delete require.cache[require.resolve(PLAN_PATH)];
-    const plan = require(PLAN_PATH);
-    res.json(plan);
-  } catch (err) {
-    console.error('Error leyendo plan.js:', err);
-    res.status(500).json({ error: 'No se pudo leer plan.js' });
+    const bearer = req.headers.authorization || "";
+    const token  = bearer.startsWith("Bearer ") ? bearer.slice(7) : null;
+    if (!token) return res.status(401).json({ error: "missing bearer token" });
+
+    // Validar token de usuario
+    const { data, error } = await admin.auth.getUser(token);
+    if (error || !data?.user) return res.status(401).json({ error: "invalid token" });
+
+    const uid = data.user.id;
+
+    // Limpieza de tus tablas (ajustá nombres si hace falta)
+    await admin.from("rutinas").delete().eq("user_id", uid);
+    await admin.from("profiles").delete().eq("id", uid);
+
+    // Borrado real del auth.user
+    const { error: delErr } = await admin.auth.admin.deleteUser(uid);
+    if (delErr) return res.status(500).json({ error: delErr.message });
+
+    return res.json({ ok: true });
+  } catch (e) {
+    return res.status(500).json({ error: e.message || String(e) });
   }
 });
 
-// POST guardar (sobrescribe plan.js)
-app.post('/api/plan', (req, res) => {
-  try {
-    const plan = req.body;
-    if (typeof plan !== 'object' || Array.isArray(plan)) {
-      return res.status(400).json({ error: 'Formato inválido. Debe ser un objeto { "Lunes":[...], ... }' });
-    }
-    const js = 'module.exports = ' + JSON.stringify(plan, null, 2) + ';\n';
-    // backup opcional
-    fs.writeFileSync(path.join(__dirname, 'plan.backup.json'), JSON.stringify(plan, null, 2));
-    // persistencia principal
-    fs.writeFileSync(PLAN_PATH, js, 'utf8');
-    // limpiar caché del require
-    delete require.cache[require.resolve(PLAN_PATH)];
-    res.json({ ok: true });
-  } catch (err) {
-    console.error('Error guardando plan.js:', err);
-    res.status(500).json({ error: 'No se pudo guardar plan.js' });
-  }
+// ====== Archivos estáticos (tu app) ======
+app.use(express.static(__dirname)); // sirve el directorio actual
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.listen(APP_PORT, () => {
-  console.log(` Servidor en http://localhost:${APP_PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server escuchando en http://localhost:" + PORT));

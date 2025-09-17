@@ -1,182 +1,186 @@
-// perfil.js — con foto de perfil en Supabase Storage (jpg/png/webp)
-import { supabase } from './auth.js'
+// perfil.js — perfiles con Supabase (auto-creación + soft delete)
+import { sb, getUser } from "./auth.js";
 
-const form           = document.getElementById('profileForm')
-const btnLogout      = document.getElementById('logoutBtn')
-const btnDelete      = document.getElementById('deleteBtn')
-const avatarImg      = document.getElementById('avatarImg')
-const avatarFallback = document.getElementById('avatarFallback')
-const avatarInput    = document.getElementById('avatarInput')   // <input type="file" id="avatarInput">
+const form           = document.getElementById('profileForm');
+const btnLogout      = document.getElementById('logoutBtn');
+const btnDelete      = document.getElementById('deleteBtn');
+const avatarImg      = document.getElementById('avatarImg');
+const avatarFallback = document.getElementById('avatarFallback');
+const avatarInput    = document.getElementById('avatarInput');
 
-const $ = (name) => form.elements[name]
-const AVATAR_BUCKET = 'avatars'     // bucket en Supabase (recomendado público)
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'] // formatos permitidos
-const MAX_MB = 5
+let user = null;
+let profile = null;
 
-let user = null
-let currentAvatarUrl = null   // conserva la foto previa si no se sube una nueva
+init().catch(err=>{
+  alert('Error inicializando perfil: ' + (err.message || err));
+  console.error(err);
+});
 
-// ===== helpers =====
-function fileExt(file) {
-  const n = file.name || ''
-  const parts = n.split('.')
-  return parts.length > 1 ? parts.pop().toLowerCase() : 'jpg'
+async function init(){
+  user = await getUser();
+  if (!user) { window.location.href = 'login.html'; return; }
+
+  // 1) Traer o crear perfil
+  profile = await ensureProfile(user);
+
+  // 2) Si la cuenta fue eliminada (soft delete), bloquear y salir
+  if (profile?.is_deleted) {
+    try { await sb.auth.signOut(); } catch {}
+    alert('Tu cuenta fue eliminada. No podés usar el perfil.');
+    window.location.href = 'index.html';
+    return;
+  }
+
+  // 3) Pintar formulario
+  fillForm(profile);
+
+  // 4) Avatar
+  if (profile.avatar_url){
+    avatarImg.src = profile.avatar_url;
+    avatarImg.style.display = 'block';
+    avatarFallback.style.display = 'none';
+  } else {
+    avatarFallback.textContent = (profile.nombre?.[0] || 'b').toLowerCase();
+  }
 }
 
-async function uploadAvatar(file) {
-  // validaciones
-  if (!ALLOWED_TYPES.includes(file.type)) {
-    throw new Error('Formato no permitido. Usá JPG, PNG o WEBP.')
-  }
-  if (file.size > MAX_MB * 1024 * 1024) {
-    throw new Error(`El archivo supera ${MAX_MB} MB`)
-  }
+/* ========= Helpers ========= */
 
-  const ext = fileExt(file)
-  // ruta única para evitar cache: userId/timestamp.ext
-  const path = `${user.id}/${Date.now()}.${ext}`
-
-  const { error: upErr } = await supabase
-    .storage.from(AVATAR_BUCKET)
-    .upload(path, file, {
-      upsert: true,
-      cacheControl: '3600',
-      contentType: file.type || 'image/jpeg'
-    })
-
-  if (upErr) throw upErr
-
-  const { data } = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(path)
-  return data.publicUrl
-}
-
-// Preview local inmediato
-avatarInput?.addEventListener('change', () => {
-  const f = avatarInput.files?.[0]
-  if (!f) return
-  const url = URL.createObjectURL(f)
-  avatarImg.src = url
-  avatarImg.style.display = 'block'
-  avatarFallback.style.display = 'none'
-})
-
-// ===== CARGA INICIAL =====
-async function load() {
-  const { data: { user: u }, error } = await supabase.auth.getUser()
-  if (error || !u) {
-    alert('Tenés que iniciar sesión.')
-    location.href = 'login.html'
-    return
-  }
-  user = u
-  avatarFallback.textContent = (u.email?.[0] || 'U').toLowerCase()
-
-  const { data: row, error: selErr } = await supabase
+async function ensureProfile(user){
+  // intenta leer
+  const { data, error } = await sb
     .from('profiles')
     .select('*')
     .eq('id', user.id)
-    .maybeSingle()
+    .maybeSingle();
 
-  if (selErr) {
-    console.error(selErr)
-    alert('Error cargando tu perfil.')
-    return
-  }
+  if (error && error.code !== 'PGRST116') throw error; // error real
 
-  $('email').value       = user.email || ''
-  $('nombre').value      = row?.nombre      ?? ''
-  $('deporte').value     = row?.deporte     ?? ''
-  $('objetivo').value    = row?.objetivo    ?? ''
-  $('dificultad').value  = row?.dificultad  ?? ''
-  $('edad').value        = row?.edad        ?? ''
-  $('peso').value        = row?.peso        ?? ''
-  $('altura').value      = row?.altura      ?? ''
+  if (data) return data;
 
-  currentAvatarUrl = row?.avatar_url ?? null
-  if (currentAvatarUrl) {
-    avatarImg.src = currentAvatarUrl
-    avatarImg.style.display = 'block'
-    avatarFallback.style.display = 'none'
-  } else {
-    avatarImg.style.display = 'none'
-    avatarFallback.style.display = 'grid'
-  }
+  // si no existe, crearlo con metadata básica
+  const base = {
+    id: user.id,
+    email: user.email,
+    nombre: user.user_metadata?.nombre || null,
+    deporte: null,
+    objetivo: null,
+    dificultad: null,
+    edad: null,
+    peso: null,
+    altura: null,
+    avatar_url: null,
+    is_deleted: false
+  };
+  const { data: created, error: upErr } = await sb
+    .from('profiles')
+    .upsert(base)
+    .select()
+    .single();
+  if (upErr) throw upErr;
+  return created;
 }
 
-load()
+function fillForm(p){
+  form.nombre.value      = p?.nombre    ?? '';
+  form.email.value       = p?.email     ?? (user?.email || '');
+  form.deporte.value     = p?.deporte   ?? '';
+  form.objetivo.value    = p?.objetivo  ?? '';
+  form.dificultad.value  = p?.dificultad?? '';
+  form.edad.value        = p?.edad      ?? '';
+  form.peso.value        = p?.peso      ?? '';
+  form.altura.value      = p?.altura    ?? '';
+}
 
-// ===== GUARDAR PERFIL =====
-form?.addEventListener('submit', async (e) => {
-  e.preventDefault()
-  if (!user) return
+function nz(v){ // normaliza: '' -> null, trim
+  if (v === undefined || v === null) return null;
+  const s = String(v).trim();
+  return s === '' ? null : s;
+}
 
-  const nombre = $('nombre').value.trim()
-  if (!nombre) return alert('Ingresá tu nombre.')
+/* ========= Eventos ========= */
+
+// subir avatar
+avatarInput?.addEventListener('change', async (e)=>{
+  const file = e.target.files?.[0];
+  if (!file || !user) return;
+
+  const filename = `${user.id}/${Date.now()}_${file.name}`;
+  const { error: upErr } = await sb.storage.from('avatars').upload(filename, file, { upsert:true });
+  if (upErr) return alert('Error subiendo avatar: ' + upErr.message);
+
+  const { data: pub } = sb.storage.from('avatars').getPublicUrl(filename);
+  const publicUrl = pub?.publicUrl;
+
+  const { error: upDb } = await sb
+    .from('profiles')
+    .update({ avatar_url: publicUrl })
+    .eq('id', user.id);
+  if (upDb) return alert('Error guardando avatar: ' + upDb.message);
+
+  avatarImg.src = publicUrl;
+  avatarImg.style.display = 'block';
+  avatarFallback.style.display = 'none';
+});
+
+// guardar perfil
+form?.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  if (!user) return;
+
+  const payload = {
+    id: user.id,
+    nombre:     nz(form.nombre.value),
+    email:      nz(form.email.value) || user.email, // nunca null por compat
+    deporte:    nz(form.deporte.value),
+    objetivo:   nz(form.objetivo.value),
+    dificultad: nz(form.dificultad.value),
+    edad:       form.edad.value   ? Number(form.edad.value)   : null,
+    peso:       form.peso.value   ? Number(form.peso.value)   : null,
+    altura:     form.altura.value ? Number(form.altura.value) : null
+  };
+
+  const { error } = await sb.from('profiles').upsert(payload);
+  if (error) return alert('Error guardando: ' + error.message);
+  alert('Perfil guardado ✅');
+});
+
+// cerrar sesión
+btnLogout?.addEventListener('click', async (e) => {
+  e.preventDefault();
+  try {
+    await sb.auth.signOut();
+    alert('Sesión cerrada.');
+    window.location.href = 'index.html';
+  } catch (err) {
+    alert('No pude cerrar sesión: ' + (err.message || err));
+  }
+});
+
+// borrar cuenta -> HARD DELETE en server + logout
+btnDelete?.addEventListener('click', async ()=>{
+  if (!confirm('¿Seguro que querés borrar tu cuenta y rutinas? Esta acción es permanente.')) return;
+  if (!user) return;
 
   try {
-    // 1) si seleccionó nuevo archivo, lo subo
-    let avatarUrl = currentAvatarUrl
-    const file = avatarInput?.files?.[0]
-    if (file) {
-      avatarUrl = await uploadAvatar(file)
-    }
+    // Conseguimos el access_token actual para enviarlo al server
+    const { data: s } = await sb.auth.getSession();
+    const token = s?.session?.access_token;
+    if (!token) throw new Error("No session token");
 
-    // 2) upsert perfil (⚠️ corregido: usar avatarUrl)
-    const payload = {
-      id: user.id,
-      email: user.email,
-      nombre,
-      deporte: $('deporte').value.trim(),
-      objetivo: $('objetivo').value,
-      dificultad: $('dificultad').value,
-      edad: $('edad').value ? Number($('edad').value) : null,
-      peso: $('peso').value ? Number($('peso').value) : null,
-      altura: $('altura').value ? Number($('altura').value) : null,
-      avatar_url: avatarUrl,
-      updated_at: new Date().toISOString()
-    }
+    const res = await fetch("http://localhost:3001/api/delete-account", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
+    });
+    const j = await res.json();
+    if (!res.ok) throw new Error(j?.error || "No se pudo borrar");
 
-    const { error } = await supabase
-      .from('profiles')
-      .upsert(payload, { onConflict: 'id' })
-
-    if (error) throw error
-
-    currentAvatarUrl = avatarUrl
-    if (avatarUrl) {
-      avatarImg.src = avatarUrl
-      avatarImg.style.display = 'block'
-      avatarFallback.style.display = 'none'
-    }
-
-    alert('Perfil guardado ✅')
+    // Logout local y redirigir
+    await sb.auth.signOut().catch(()=>{});
+    alert("Cuenta eliminada. Podés registrarte nuevamente cuando quieras.");
+    window.location.href = "index.html";
   } catch (err) {
-    console.error(err)
-    alert('No pude guardar los cambios: ' + (err?.message || 'Error'))
+    alert("Error al borrar la cuenta: " + (err.message || err));
   }
-})
+});
 
-// ===== CERRAR SESIÓN =====
-btnLogout?.addEventListener('click', async () => {
-  if (!confirm('¿Cerrar sesión?')) return
-  await supabase.auth.signOut()
-  localStorage.removeItem('CURRENT_USER')
-  location.href = 'login.html'
-})
-
-// ===== BORRAR PERFIL (NO borra la cuenta de Auth) =====
-btnDelete?.addEventListener('click', async () => {
-  if (!user) return
-  if (!confirm('Esto borra tu PERFIL (no la cuenta). ¿Continuar?')) return
-
-  const { error } = await supabase.from('profiles').delete().eq('id', user.id)
-  if (error) {
-    console.error(error)
-    return alert('No pude borrar el perfil: ' + error.message)
-  }
-
-  alert('Perfil borrado. Cerrando sesión…')
-  await supabase.auth.signOut()
-  localStorage.removeItem('CURRENT_USER')
-  location.href = 'login.html'
-})
